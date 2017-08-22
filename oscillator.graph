@@ -1,0 +1,40 @@
+SEQ
+1	5.0	279.0	244.0	74.32767762106766
+2	1.0	161.0	46.0	74.32767762106766
+3	1.0	409.0	50.0	74.32767762106766
+4	0.0	296.0	41.0	0.21650586866068727
+5	0.0	222.0	123.0	0.21650586866068727
+6	0.0	327.0	171.0	0.21650586866068727
+TEM
+3->6	3	6	10.0	0.2	1.0	1.0	Default
+1->5	1	5	10.0	0.2	1.0	1.0	Default
+2->4	2	4	10.0	0.2	1.0	1.0	Default
+3->3	3	3	10.0	0.2	1.0	1.0	Default
+2->2	2	2	10.0	0.2	1.0	1.0	Default
+1->1	1	1	10.0	0.2	1.0	1.0	Default
+INHIB
+5	2->2	2	2
+4	3->3	3	3
+6	1->1	1	1
+INPUTS
+PARAMS
+absprec	1.0E-6
+relprec	1.0E-6
+inhfact	3.0
+inhdang	0.5
+diplrat	0.2
+exokmib	150.0
+exokmsi	440.0
+exokmtm	10.0
+exovm	300.0
+kduplex	0.2
+nickkm	30.0
+nickvm	80.0
+maxtime	1000
+polkm	80.0
+polkmbo	5.5
+polvm	1050.0
+selfsta	1.0E-10
+toeleft	0.002
+toeright	0.01
+dangle	false
