@@ -5,14 +5,8 @@ from scipy import linalg as LA
 
 import config
 
-if len(sys.argv) < 2:
-    print("dirname is needed.")
-    sys.exit(1)
-
-cnf = config.Config(sys.argv[1] + "/config.json")
-
-def load_waves():
-    f = open(sys.argv[1] + "/waves.txt", "r")
+def load_waves(case_dir):
+    f = open(case_dir + "/waves.txt", "r")
     next(f)
     waves = []
     for line in f:
@@ -23,8 +17,8 @@ def load_waves():
     f.close()
     return waves
 
-def load_tasks():
-    f = open(sys.argv[1] + "/tasks.txt", "r")
+def load_tasks(case_dir):
+    f = open(case_dir + "/tasks.txt", "r")
     tasks = []
     for line in f:
         line = line.rstrip("\n")
@@ -39,24 +33,38 @@ def learn(task, waves):
     coff = LA.solve(G.T.dot(G), G.T.dot(task))
     return coff
 
-waves = load_waves()
-tasks = load_tasks()
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("dirname is needed.")
+        sys.exit(1)
 
-taskA = [p[0] for p in tasks]
-taskA = taskA[cnf.time_taskA:]
-wavesA = waves[cnf.time_taskA:]
-coffA = learn(taskA, wavesA)
+    case_dir = sys.argv[1]
 
-taskB = [p[1] for p in tasks]
-taskB = taskB[cnf.time_taskB:]
-wavesB = waves[cnf.time_taskB:]
-coffB = learn(taskB, wavesB)
+    cnf = config.Config(case_dir + "/config.json")
 
-for t in range(cnf.time_end):
-    yA = 0
-    yB = 0
-    if t >= cnf.time_taskA:
-        yA = coffA.dot(waves[t])
-    if t >= cnf.time_taskB:
-        yB = coffB.dot(waves[t])
-    print("%f\t%f" % (yA, yB))
+    waves = load_waves(case_dir)
+    tasks = load_tasks(case_dir)
+
+    taskA = [p[0] for p in tasks]
+    taskA = taskA[cnf.time_taskA:]
+    wavesA = waves[cnf.time_taskA:]
+    coffA = learn(taskA, wavesA)
+
+    taskB = [p[1] for p in tasks]
+    taskB = taskB[cnf.time_taskB:]
+    wavesB = waves[cnf.time_taskB:]
+    coffB = learn(taskB, wavesB)
+
+    print(coffA)
+    print(coffB)
+
+    file_result = open(case_dir + "/result.txt", mode = "w")
+    for t in range(cnf.time_end):
+        yA = 0
+        yB = 0
+        if t >= cnf.time_taskA:
+            yA = coffA.dot(waves[t])
+        if t >= cnf.time_taskB:
+            yB = coffB.dot(waves[t])
+        file_result.write("%f\t%f\n" % (yA, yB))
+    file_result.close()
