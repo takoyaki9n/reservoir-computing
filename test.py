@@ -34,6 +34,24 @@ def load_params(param_file):
     f.close()
     return params
 
+def NRMSE(task, reg, start_time):
+    task = task[start_time:]
+    reg = reg[start_time:]
+
+    n = len(task)
+    mx = reg[0]
+    mn = reg[0]
+    for i in range(1, n):
+        if mx < reg[i]: mx = reg[i]
+        if mn > reg[i]: mn = reg[i]
+
+    nrmse = 0
+    for i in range(n):
+        nrmse += (reg[i] - task[i]) ** 2
+    nrmse = np.sqrt(nrmse / n) / (mx - mn)
+
+    return nrmse
+
 if __name__ == "__main__":
     if len(sys.argv) < 4:
         print("dirname is needed.")
@@ -50,6 +68,11 @@ if __name__ == "__main__":
     tasks = load_tasks(sys.argv[2])
     waves = load_waves(sys.argv[3])
 
+    taskA = [p[0] for p in tasks]
+    taskB = [p[1] for p in tasks]
+
+    regA = []
+    regB = []
     for t in range(cnf.time_end):
         yA = 0
         yB = 0
@@ -58,3 +81,10 @@ if __name__ == "__main__":
         if t >= cnf.time_taskB:
             yB = coffB.dot(waves[t])
         print("%f\t%f" % (yA, yB))
+        regA.append(yA)
+        regB.append(yB)
+
+    file_nrmse = open(case_dir + "/nrmse.json", mode = "w")
+    nrmse = {"A": NRMSE(taskA, regA, cnf.time_taskA), "B": NRMSE(taskB, regB, cnf.time_taskB)}
+    file_nrmse.write(json.dumps(nrmse))
+    file_nrmse.close()
