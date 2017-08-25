@@ -1,12 +1,12 @@
-#!/Users/wataru/.pyenv/shims/python
 import sys
+import json
 import numpy as np
 from scipy import linalg as LA
 
 import config
 
-def load_waves(case_dir):
-    f = open(case_dir + "/waves.txt", "r")
+def load_waves(wave_file):
+    f = open(wave_file, "r")
     next(f)
     waves = []
     for line in f:
@@ -17,8 +17,8 @@ def load_waves(case_dir):
     f.close()
     return waves
 
-def load_tasks(case_dir):
-    f = open(case_dir + "/tasks.txt", "r")
+def load_tasks(task_file):
+    f = open(task_file, "r")
     tasks = []
     for line in f:
         line = line.rstrip("\n")
@@ -34,7 +34,7 @@ def learn(task, waves):
     return coff
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 4:
         print("dirname is needed.")
         sys.exit(1)
 
@@ -42,8 +42,8 @@ if __name__ == "__main__":
 
     cnf = config.Config(case_dir + "/config.json")
 
-    waves = load_waves(case_dir)
-    tasks = load_tasks(case_dir)
+    tasks = load_tasks(sys.argv[2])
+    waves = load_waves(sys.argv[3])
 
     taskA = [p[0] for p in tasks]
     taskA = taskA[cnf.time_taskA:]
@@ -55,10 +55,6 @@ if __name__ == "__main__":
     wavesB = waves[cnf.time_taskB:]
     coffB = learn(taskB, wavesB)
 
-    print(coffA)
-    print(coffB)
-
-    file_result = open(case_dir + "/result.txt", mode = "w")
     for t in range(cnf.time_end):
         yA = 0
         yB = 0
@@ -66,5 +62,9 @@ if __name__ == "__main__":
             yA = coffA.dot(waves[t])
         if t >= cnf.time_taskB:
             yB = coffB.dot(waves[t])
-        file_result.write("%f\t%f\n" % (yA, yB))
-    file_result.close()
+        print("%f\t%f" % (yA, yB))
+
+    file_prams = open(case_dir + "/params.json", mode = "w")
+    params = {"coffA": coffA.tolist(), "coffB": coffB.tolist()}
+    file_prams.write(json.dumps(params))
+    file_prams.close()
