@@ -4,56 +4,33 @@ import numpy as np
 from scipy import linalg as LA
 
 import config
+import utils
 
-def load_waves(wave_file):
-    f = open(wave_file, "r")
-    next(f)
-    waves = []
-    for line in f:
-        line = line.rstrip("\t\n").split("\t")
-        row = [float(d) for d in line]
-        row.append(1.0)
-        waves.append(row)
-    f.close()
-    return waves
+def learn(task, waves, start_time):
+    task = task[start_time:]
+    waves = waves[start_time:]
 
-def load_tasks(task_file):
-    f = open(task_file, "r")
-    tasks = []
-    for line in f:
-        line = line.rstrip("\n")
-        row = line.split("\t")
-        pair = [float(d) for d in row]
-        tasks.append(pair)
-    f.close()
-    return tasks
-
-def learn(task, waves):
     G = np.array(waves)
     coff = LA.solve(G.T.dot(G), G.T.dot(task))
     return coff
 
 if __name__ == "__main__":
-    if len(sys.argv) < 4:
-        print("dirname is needed.")
+    if len(sys.argv) < 2:
+        print("usage:\npython learn.py [case]")
         sys.exit(1)
 
-    case_dir = sys.argv[1]
+    case = sys.argv[1]
 
-    cnf = config.Config(case_dir + "/config.json")
+    cnf = config.Config(case + "/config.json")
 
-    tasks = load_tasks(sys.argv[2])
-    waves = load_waves(sys.argv[3])
+    tasks = utils.load_tasks(case + "/tasks_train.txt")
+    waves = utils.load_waves(case + "/waves_train.txt")
 
     taskA = [p[0] for p in tasks]
-    taskA = taskA[cnf.time_taskA:]
-    wavesA = waves[cnf.time_taskA:]
-    coffA = learn(taskA, wavesA)
+    coffA = learn(taskA, waves, cnf.time_taskA)
 
     taskB = [p[1] for p in tasks]
-    taskB = taskB[cnf.time_taskB:]
-    wavesB = waves[cnf.time_taskB:]
-    coffB = learn(taskB, wavesB)
+    coffB = learn(taskB, waves, cnf.time_taskB)
 
     for t in range(cnf.time_end):
         yA = 0
@@ -64,7 +41,6 @@ if __name__ == "__main__":
             yB = coffB.dot(waves[t])
         print("%f\t%f" % (yA, yB))
 
-    file_prams = open(case_dir + "/params.json", mode = "w")
+    file_prams = open(case + "/params.json", mode = "w")
     params = {"coffA": coffA.tolist(), "coffB": coffB.tolist()}
-    file_prams.write(json.dumps(params))
-    file_prams.close()
+    json.dump(params, file_prams)

@@ -1,6 +1,7 @@
 import sys
 
 import config
+import utils
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
@@ -12,10 +13,7 @@ if __name__ == "__main__":
 
     cnf = config.Config(case + "/config.json")
 
-    fi = open("%s/input_%s.txt" % (case, mode), "r")
-    lines = fi.read().rstrip("\n").split("\n")
-    data = [float(x) for x in lines]
-    fi.close()
+    data = utils.load_input("%s/input_%s.txt" % (case, mode))
 
     taskA = 0
     taskB = 0
