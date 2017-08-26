@@ -6,14 +6,6 @@ from scipy import linalg as LA
 import config
 import utils
 
-def learn(task, waves, start_time):
-    task = task[start_time:]
-    waves = waves[start_time:]
-
-    G = np.array(waves)
-    coff = LA.solve(G.T.dot(G), G.T.dot(task))
-    return coff
-
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("usage:\npython learn.py [case]")
@@ -27,10 +19,10 @@ if __name__ == "__main__":
     waves = utils.load_waves(case + "/waves_train.txt")
 
     taskA = [p[0] for p in tasks]
-    coffA = learn(taskA, waves, cnf.time_taskA)
+    coffA = utils.learn(taskA, waves, cnf.time_taskA)
 
     taskB = [p[1] for p in tasks]
-    coffB = learn(taskB, waves, cnf.time_taskB)
+    coffB = utils.learn(taskB, waves, cnf.time_taskB)
 
     for t in range(cnf.time_end):
         yA = 0
