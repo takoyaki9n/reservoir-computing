@@ -40,5 +40,5 @@ if __name__ == "__main__":
 
     file_nrmse = open(case + "/nrmse.json", mode = "w")
     nrmse = {"A": utils.NRMSE(taskA, regA, cnf.time_taskA), "B": utils.NRMSE(taskB, regB, cnf.time_taskB)}
-    file_nrmse.write(json.dumps(nrmse))
+    json.dump(nrmse, file_nrmse, sort_keys = True, indent = 4)
     file_nrmse.close()
