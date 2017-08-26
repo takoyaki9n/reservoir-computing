@@ -14,8 +14,8 @@ TEM
 1->1	1	1	10.0	0.2	1.0	1.0	Default
 INHIB
 5	2->2	2	2
-4	3->3	3	3
 6	1->1	1	1
+4	3->3	3	3
 INPUTS
 PARAMS
 absprec	1.0E-6
@@ -30,7 +30,7 @@ exovm	300.0
 kduplex	0.2
 nickkm	30.0
 nickvm	80.0
-maxtime	1000
+maxtime	5000
 polkm	80.0
 polkmbo	5.5
 polvm	1050.0
