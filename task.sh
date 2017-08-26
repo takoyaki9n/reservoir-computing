@@ -1,0 +1,1 @@
+python task.py case$1 $2 > case$1/tasks_$2.txt

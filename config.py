@@ -1,4 +1,3 @@
-#!/Users/wataru/.pyenv/shims/python
 import json
 
 class Config(object):

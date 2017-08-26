@@ -4,13 +4,15 @@ import config
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("dirname is needed.")
+        print("usage:\npython task.py [case] [mode]")
         sys.exit(1)
 
-    case_dir = sys.argv[1]
-    cnf = config.Config(case_dir + "/config.json")
+    case = sys.argv[1]
+    mode = sys.argv[2]
 
-    fi = open(sys.argv[2], "r")
+    cnf = config.Config(case + "/config.json")
+
+    fi = open("%s/input_%s.txt" % (case, mode), "r")
     lines = fi.read().rstrip("\n").split("\n")
     data = [float(x) for x in lines]
     fi.close()

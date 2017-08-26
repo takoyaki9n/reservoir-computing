@@ -1,0 +1,1 @@
+python input.py case$1 > case$1/input_$2.txt

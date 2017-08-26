@@ -5,11 +5,11 @@ import config
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("dirname is needed.")
+        print("usage:\npython input.py [case]")
         sys.exit(1)
 
-    case_dir = sys.argv[1]
-    cnf = config.Config(case_dir + "/config.json")
+    case = sys.argv[1]
+    cnf = config.Config(case + "/config.json")
 
     s1 = 0.0
     for t in range(cnf.time_end):
