@@ -38,7 +38,6 @@ def load_params(param_file):
     f.close()
     return params
 
-
 def learn(task, waves, start_time):
     task = task[start_time:]
     waves = waves[start_time:]
