@@ -1,0 +1,3 @@
+[submodule "java/daccad"]
+	path = java/daccad
+	url = git@bitbucket.org:AubertKato/daccad.git
