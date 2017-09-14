@@ -1,4 +1,4 @@
-package main;
+package graphGenerator;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -7,65 +7,25 @@ import edu.uci.ics.jung.graph.util.Pair;
 import model.Constants;
 import model.OligoGraph;
 import model.chemicals.SequenceVertex;
-import utils.EdgeFactory;
-import utils.VertexFactory;
 
-public class RandomGraph {
+public class RandomGraphGenerator extends GraphGenerator {
 	static final double maxInitSignalCons = 0.1;
 	
 	private int nS, nI;
 	private int mS, mI;
-	public OligoGraph<SequenceVertex, String> graph;
 	private SequenceVertex s1;
-	
-	public RandomGraph(int nS, int nI, int mS, int mI) {
+
+	public RandomGraphGenerator(int nS, int nI, int mS, int mI) {
 		this.nS = nS; this.nI = nI;
 		this.mS = mS; this.mI = mI;
-		this.generateGraph();
 	}
-		
-	public void initGraph(){
-		final OligoGraph<SequenceVertex, String> g = new OligoGraph<SequenceVertex,String>();
-	    g.initFactories(new VertexFactory<SequenceVertex>(g){
-	    	
-			public SequenceVertex create() {
-				SequenceVertex newvertex = associatedGraph.popAvailableVertex();
-				if (newvertex == null){
-					newvertex = new SequenceVertex(associatedGraph.getVertexCount() + 1);
-				} else {
-					newvertex = new SequenceVertex(newvertex.ID);
-				}
-				return newvertex;
-			}
-
-			@Override
-			public SequenceVertex copy(SequenceVertex original) {
-				 SequenceVertex ret = new SequenceVertex(original.ID);
-				 ret.inputs = original.inputs;
-				 return ret;
-			} 	
-	    }, 
-	    	new EdgeFactory<SequenceVertex,String>(g) {
-    			public String createEdge(SequenceVertex v1, SequenceVertex v2) {
-    				return v1.ID+"->"+v2.ID;
-    			}
-    			public String inhibitorName(String s) {
-    				return "Inhib"+s;
-    			}
-	    });
-	    	    
-	    graph = g;
-	    graph.saturableExo = true;
-	    graph.saturableNick = true;
-	    graph.saturablePoly = true;
-	}
-
-	public void generateGraph() {
-		this.initGraph();
+	
+	public OligoGraph<SequenceVertex, String> generateGraph() {
 		this.makeSpanningTree();
 		this.addActivation();
 		this.addInhibition();
 		this.makeOutEdgeFromInput();
+		return graph;
 	}
 	
 	public void makeSpanningTree() {
