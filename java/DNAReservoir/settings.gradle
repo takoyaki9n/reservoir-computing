@@ -1,0 +1,2 @@
+include ':DACCAD'
+project(':DACCAD').projectDir = new File(settingsDir, '../daccad/DACCAD')
