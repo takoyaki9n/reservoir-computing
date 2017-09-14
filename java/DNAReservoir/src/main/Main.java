@@ -1,30 +1,10 @@
 package main;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-
-import edu.uci.ics.jung.algorithms.layout.Layout;
 import graphGenerator.GraphGenerator;
 import graphGenerator.OscillatorGenerator;
-import graphGenerator.RandomGraphGenerator;
-import graphical.frame.DataPanel;
-import graphical.frame.MyVisualizationServer;
 import model.Constants;
 import model.OligoGraph;
-import model.OligoSystem;
-import model.SlowdownConstants;
 import model.chemicals.SequenceVertex;
-import model.input.AbstractInput;
-import model.input.ExternalInput;
-import model.input.PulseInput;
-import utils.CodeGenerator;
-import utils.EdgeFactory;
-import utils.SequenceVertexComparator;
-import utils.VertexFactory;
 
 public class Main {
 	static GraphGenerator gen;
