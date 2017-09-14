@@ -2,6 +2,7 @@ package main;
 
 import graphGenerator.GraphGenerator;
 import graphGenerator.OscillatorGenerator;
+import graphGenerator.RandomGraphGenerator;
 import model.Constants;
 import model.OligoGraph;
 import model.chemicals.SequenceVertex;
@@ -18,8 +19,8 @@ public class Main {
 		
 		config();
 		
-		gen = new OscillatorGenerator(3);
-//		gen = new RandomGraphGenerator(4, 4, 4, 4);
+//		gen = new OscillatorGenerator(3);
+		gen = new RandomGraphGenerator(4, 4, 4, 4);
 		graph = gen.generateGraph();
 		
 		if (graphFileName.length() > 0)
