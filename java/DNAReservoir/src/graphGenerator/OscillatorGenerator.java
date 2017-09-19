@@ -6,6 +6,7 @@ import model.chemicals.SequenceVertex;
 
 public class OscillatorGenerator extends GraphGenerator {
 	private int n;
+	
 	public OscillatorGenerator(int n) {
 		this.n = n;
 	}
@@ -39,6 +40,7 @@ public class OscillatorGenerator extends GraphGenerator {
 			graph.addActivation(e, signal[i], inhibitor[j]);
 		}
 		
+		this.s1 = signal[0];
 		return graph;
 	}
 }
