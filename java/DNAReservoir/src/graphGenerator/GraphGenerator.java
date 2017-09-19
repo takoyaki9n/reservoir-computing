@@ -1,5 +1,8 @@
 package graphGenerator;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -58,6 +61,29 @@ public class GraphGenerator {
 	    graph.saturableExo = true;
 	    graph.saturableNick = true;
 	    graph.saturablePoly = true;
+	}
+	
+	public void importInput(String inputFileName, SequenceVertex v) {
+		File open = new File(inputFileName);
+		try {
+			FileReader inin = new FileReader(open);
+			BufferedReader readerin = new BufferedReader(inin);
+			String linein = null;
+			String[] splitin;
+			ArrayList<Double> values = new ArrayList<Double>();
+			while ((linein = readerin.readLine()) != null){
+				splitin= linein.split("\t");
+				for(int i=0; i<splitin.length;i++){
+					values.add(Double.parseDouble(splitin[i]));
+				}
+			}
+			Double[] inp = new Double[values.size()];
+			inp = values.toArray(inp);
+			v.inputs.add(new ExternalInput(inp, open));
+			readerin.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public OligoGraph<SequenceVertex, String> generateGraph(){
