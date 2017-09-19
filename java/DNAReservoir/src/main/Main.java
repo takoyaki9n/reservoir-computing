@@ -8,14 +8,22 @@ import model.OligoGraph;
 import model.chemicals.SequenceVertex;
 
 public class Main {
+	static int simulationTime = 5000;
 	static GraphGenerator gen;
 	static OligoGraph<SequenceVertex, String> graph;
 			
 	public static void main(String[] args) {
 		String inputFileName = "", graphFileName = "", waveFileName = "";
-		if (args.length >= 1) inputFileName = args[0];			
-		if (args.length >= 2) graphFileName = args[1];			
-		if (args.length >= 3) waveFileName = args[2];			
+		for (int i = 0; i < args.length; i++) {
+			if (args[i].equals("-i")) 
+				inputFileName = args[i + 1];
+			if (args[i].equals("-g")) 
+				graphFileName = args[i + 1];
+			if (args[i].equals("-o")) 
+				waveFileName = args[i + 1];
+			if (args[i].equals("-t"))
+				simulationTime = Integer.parseInt(args[i + 1]);
+		}
 		
 		config();
 		
@@ -36,6 +44,6 @@ public class Main {
 	}
 		
 	public static void config() {
-	    Constants.numberOfPoints = 1000;
+	    Constants.numberOfPoints = simulationTime;
 	}
 }
