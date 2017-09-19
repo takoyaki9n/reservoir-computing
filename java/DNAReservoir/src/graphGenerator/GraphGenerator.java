@@ -132,7 +132,7 @@ public class GraphGenerator {
 					res += v.ID+"\t"+"pulse"+"\t"+(int)pu.pulseTime+"\t"+pu.ampli+"\t"+(pu.periodic?(int)pu.period:"")+"\n";
 				} else if(inp.getClass() == ExternalInput.class){
 					ExternalInput ext = (ExternalInput) inp;
-					res += v.ID+"\t"+"file"+"\t"+ext.file+"\n";
+					res += v.ID+"\t"+"file"+"\t"+ext.file.getAbsolutePath()+"\n";
 				}
 			}
 		}
