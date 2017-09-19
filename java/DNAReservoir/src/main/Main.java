@@ -19,10 +19,13 @@ public class Main {
 		
 		config();
 		
-//		gen = new OscillatorGenerator(3);
-		gen = new RandomGraphGenerator(4, 4, 4, 4);
+		gen = new OscillatorGenerator(3);
+//		gen = new RandomGraphGenerator(4, 4, 4, 4);
 		graph = gen.generateGraph();
 		
+		if (inputFileName.length() > 0)
+			gen.importInput(inputFileName, gen.s1);
+
 		if (graphFileName.length() > 0)
 			gen.exportGraph(graphFileName);
 		
