@@ -13,7 +13,6 @@ public class RandomGraphGenerator extends GraphGenerator {
 	
 	private int nS, nI;
 	private int mS, mI;
-	private SequenceVertex s1;
 
 	public RandomGraphGenerator(int nS, int nI, int mS, int mI) {
 		this.nS = nS; this.nI = nI;
