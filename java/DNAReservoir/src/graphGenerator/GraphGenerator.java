@@ -19,6 +19,7 @@ import utils.VertexFactory;
 
 public class GraphGenerator {
 	public OligoGraph<SequenceVertex, String> graph;
+	public SequenceVertex s1;
 	
 	public GraphGenerator() {
 		initGraph();
