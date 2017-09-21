@@ -1,0 +1,22 @@
+{
+    "repeat": 100,
+    "simulation_time": 5000,
+    "input": {
+        "type": "random",
+        "start": 200,
+        "end": 5000, // optional
+        "interval": 25,
+        "min" : 0.0,
+        "max" : 0.25,
+    },
+    "tasks": [
+        {"type": "A"}, {"type": "B", "interval": 5}
+    ],
+    "graph": {
+        "type": "random",
+        "nS": 5, "nI": 5, "mS": 5, "mI": 5,
+
+        //"type": "oscillator",
+        //"n": 3,
+    }
+}
