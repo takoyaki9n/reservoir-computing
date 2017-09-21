@@ -7,7 +7,7 @@ import javax.json.JsonObject;
 import main.SimulationConfig;
 
 public class Input {
-	public ArrayList<Double> data;
+	private ArrayList<Double> data;
 	
 	static public Input generateInput(SimulationConfig config) {
 		JsonObject inputConfig = config.json.getJsonObject("input");
@@ -17,5 +17,13 @@ public class Input {
 		}
 		
 		return new Input();
+	}
+	
+	public double get(int i) {
+		return data.get(i);
+	}
+	
+	public ArrayList<Double> getData(){
+		return data;
 	}
 }
