@@ -1,17 +1,19 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import graphGenerator.GraphGenerator;
 import graphGenerator.OscillatorGenerator;
 import graphGenerator.RandomGraphGenerator;
+import input.Input;
 import model.Constants;
 import model.OligoGraph;
 import model.chemicals.SequenceVertex;
 
 public class Main {
-	static int simulationTime = 5000;
+	public static SimulationConfig config;
 	static GraphGenerator gen;
 	static OligoGraph<SequenceVertex, String> graph;
 	
@@ -26,38 +28,19 @@ public class Main {
 		return opts;
 	}
 			
-	public static void main(String[] args) {
-		String inputFileName = "", graphFileName = "", waveFileName = "";
-		for (int i = 0; i < args.length; i++) {
-			if (args[i].equals("-i")) 
-				inputFileName = args[i + 1];
-			if (args[i].equals("-g")) 
-				graphFileName = args[i + 1];
-			if (args[i].equals("-o")) 
-				waveFileName = args[i + 1];
-			if (args[i].equals("-t"))
-				simulationTime = Integer.parseInt(args[i + 1]);
+	public static void main(String[] args) {	
+		HashMap<String, String> opts = getOpts(args);
+		
+		if (!opts.containsKey("-c")) {
+			System.err.println("Config file is required.");
+			System.exit(-1);
 		}
+		config = new SimulationConfig(opts.get("-c"));
+		System.out.println(config.json);
 		
-		config();
-		
-		gen = new OscillatorGenerator(3);
-//		gen = new RandomGraphGenerator(4, 4, 4, 4);
-		graph = gen.generateGraph();
-		
-		if (inputFileName.length() > 0)
-			gen.importInput(inputFileName, gen.s1);
-
-		if (graphFileName.length() > 0)
-			gen.exportGraph(graphFileName);
-		
-		if (waveFileName.length() > 0)
-			gen.executeSimulation(waveFileName);
-		
-		System.err.println(graph);
-	}
-		
-	public static void config() {
-	    Constants.numberOfPoints = simulationTime;
+		Input input = Input.generateInput(config);
+		for (int i = 0; i < input.data.size(); i++) {
+			System.out.println(i + " " + input.data.get(i));
+		}
 	}
 }
