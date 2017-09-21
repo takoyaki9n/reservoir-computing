@@ -7,10 +7,8 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
-public class JsonSample {
-
-	public static void main(String[] args) {
-		String jsonFileName = args[0];
+public class JsonSample {	
+	public JsonSample(String jsonFileName) {
 		File jsonFile = new File(jsonFileName);
 		try (JsonReader reader = Json.createReader(new FileReader(jsonFile))) {
 			JsonObject jobj = reader.readObject();
