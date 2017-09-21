@@ -30,8 +30,9 @@ public class Input {
 	
 	static public Input generateInput(SimulationConfig config) {
 		JsonObject inputConfig = config.json.getJsonObject("input");
+		String type = inputConfig.getString("type");
 		
-		if (inputConfig.getString("type").equals("random")) {			
+		if (type.equals("random")) {			
 			return new RandomInput(inputConfig);
 		}
 		
