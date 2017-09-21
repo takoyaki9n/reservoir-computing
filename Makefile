@@ -14,7 +14,7 @@ jar: $(JAR)
 $(JAR): $(JAVA_SRC)
 	cd $(DNA_RESERVOIR); ./gradlew build
 
-eclipse: $(ECLIPSE_SETTINGS)
+eclipse: $(ECLIPSE_SETTINGS) $(DNA_RESERVOIR)/build.gradle $(DACCAD)/build.gradle
 	cd $(DNA_RESERVOIR); ./gradlew eclipse
 	cd $(DACCAD); ./gradlew eclipse
 
