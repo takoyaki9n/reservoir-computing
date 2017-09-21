@@ -1,5 +1,8 @@
 package main;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import graphGenerator.GraphGenerator;
 import graphGenerator.OscillatorGenerator;
 import graphGenerator.RandomGraphGenerator;
@@ -11,6 +14,17 @@ public class Main {
 	static int simulationTime = 5000;
 	static GraphGenerator gen;
 	static OligoGraph<SequenceVertex, String> graph;
+	
+	public static HashMap<String, String> getOpts(String[] args){
+		HashMap<String, String> opts = new HashMap<>();
+		for (int i = 0; i < args.length; i++) {
+			if (args[i].charAt(0) == '-') {
+				opts.put(args[i], args[i + 1]);
+				i++;
+			}
+		}
+		return opts;
+	}
 			
 	public static void main(String[] args) {
 		String inputFileName = "", graphFileName = "", waveFileName = "";
