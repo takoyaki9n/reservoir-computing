@@ -4,10 +4,22 @@ import java.util.ArrayList;
 
 import javax.json.JsonObject;
 
+import main.Main;
 import main.SimulationConfig;
 
 public class Input {
-	private ArrayList<Double> data;
+	protected ArrayList<Double> data;
+
+	protected int inputLength;
+	public int start, end;
+	
+	public Input(JsonObject config) {
+		start = config.getInt("start");
+		end = config.containsKey("end")? config.getInt("end"): Main.config.simulationTime;
+		
+		inputLength = Math.max(end, Main.config.simulationTime);
+		data = new ArrayList<Double>(inputLength);
+	}
 	
 	static public Input generateInput(SimulationConfig config) {
 		JsonObject inputConfig = config.json.getJsonObject("input");
@@ -16,7 +28,7 @@ public class Input {
 			return new RandomInput(inputConfig);
 		}
 		
-		return new Input();
+		return new Input(inputConfig);
 	}
 	
 	public double get(int i) {

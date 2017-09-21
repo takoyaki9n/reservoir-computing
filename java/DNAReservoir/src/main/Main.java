@@ -1,16 +1,11 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import graphGenerator.GraphGenerator;
-import graphGenerator.OscillatorGenerator;
-import graphGenerator.RandomGraphGenerator;
-import input.Input;
-import model.Constants;
 import model.OligoGraph;
 import model.chemicals.SequenceVertex;
+import test.RandominputTest;
 
 public class Main {
 	public static SimulationConfig config;
@@ -38,9 +33,6 @@ public class Main {
 		config = new SimulationConfig(opts.get("-c"));
 		System.out.println(config.json);
 		
-		Input input = Input.generateInput(config);
-		for (int i = 0; i < input.data.size(); i++) {
-			System.out.println(i + " " + input.data.get(i));
-		}
+		RandominputTest.run();
 	}
 }
