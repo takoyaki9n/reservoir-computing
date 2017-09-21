@@ -2,10 +2,9 @@ package task;
 
 import java.util.ArrayList;
 
-import javax.json.JsonObject;
+import javax.json.JsonArray;
 
 import input.Input;
-import input.RandomInput;
 import main.SimulationConfig;
 
 public class Task {
@@ -28,8 +27,17 @@ public class Task {
 		return data;
 	}
 	
-	static Task generateTask(Input input) {
-		//TODO: implement
-		return null;
+	static public ArrayList<Task> generateTasks(SimulationConfig config, Input input) {
+		JsonArray taskConfigs = config.json.getJsonArray("tasks");
+		
+		ArrayList<Task> tasks = new ArrayList<>();
+		for (int i = 0; i < taskConfigs.size(); i++) {
+			String type = taskConfigs.getJsonObject(i).getString("type");
+			if (type.equals("A")) {
+				tasks.add(new TaskA(input));
+			}
+		}
+		
+		return tasks;
 	}
 }

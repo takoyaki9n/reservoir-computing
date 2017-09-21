@@ -5,7 +5,7 @@ import java.util.HashMap;
 import graphGenerator.GraphGenerator;
 import model.OligoGraph;
 import model.chemicals.SequenceVertex;
-import test.RandominputTest;
+import test.TaskTest;
 
 public class Main {
 	public static SimulationConfig config;
@@ -33,6 +33,6 @@ public class Main {
 		config = new SimulationConfig(opts.get("-c"));
 		System.out.println(config.json);
 		
-		RandominputTest.run();
+		TaskTest.run();
 	}
 }
