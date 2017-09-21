@@ -10,15 +10,22 @@ import main.SimulationConfig;
 public class Input {
 	protected ArrayList<Double> data;
 
-	protected int inputLength;
-	public int start, end;
+	public int start, end, length;
 	
 	public Input(JsonObject config) {
 		start = config.getInt("start");
 		end = config.containsKey("end")? config.getInt("end"): Main.config.simulationTime;
 		
-		inputLength = Math.max(end, Main.config.simulationTime);
-		data = new ArrayList<Double>(inputLength);
+		length = Math.max(end, Main.config.simulationTime);
+		data = new ArrayList<Double>(length);
+	}
+	
+	public double get(int i) {
+		return data.get(i);
+	}
+	
+	public ArrayList<Double> getData(){
+		return data;
 	}
 	
 	static public Input generateInput(SimulationConfig config) {
@@ -29,13 +36,5 @@ public class Input {
 		}
 		
 		return new Input(inputConfig);
-	}
-	
-	public double get(int i) {
-		return data.get(i);
-	}
-	
-	public ArrayList<Double> getData(){
-		return data;
 	}
 }
