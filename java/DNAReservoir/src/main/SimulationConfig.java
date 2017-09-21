@@ -7,9 +7,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
-import org.apache.commons.math3.analysis.function.Constant;
-import org.jfree.ui.about.Licences;
-
 import model.Constants;
 
 public class SimulationConfig {
