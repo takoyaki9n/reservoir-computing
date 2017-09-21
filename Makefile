@@ -9,9 +9,9 @@ all: $(TARGETS)
 jar: $(JAR)
 
 $(JAR): $(JAVA_SRC)
-	cd $(DNA_RESERVOIR); gradle build
+	cd $(DNA_RESERVOIR); ./gradlew build
 
 clean:
-	cd $(DNA_RESERVOIR); gradle clean
+	cd $(DNA_RESERVOIR); ./gradlew clean
 
 .PHONY: all clean jar
