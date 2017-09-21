@@ -1,7 +1,5 @@
 package task;
 
-import java.util.Random;
-
 import input.Input;
 
 public class TaskA extends Task {

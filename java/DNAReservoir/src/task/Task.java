@@ -3,6 +3,7 @@ package task;
 import java.util.ArrayList;
 
 import javax.json.JsonArray;
+import javax.json.JsonObject;
 
 import input.Input;
 import main.SimulationConfig;
@@ -27,14 +28,18 @@ public class Task {
 		return data;
 	}
 	
-	static public ArrayList<Task> generateTasks(SimulationConfig config, Input input) {
+	static public ArrayList<Task> generateTasks(Input input, SimulationConfig config) {
 		JsonArray taskConfigs = config.json.getJsonArray("tasks");
 		
 		ArrayList<Task> tasks = new ArrayList<>();
 		for (int i = 0; i < taskConfigs.size(); i++) {
-			String type = taskConfigs.getJsonObject(i).getString("type");
+			JsonObject taskConfig = taskConfigs.getJsonObject(i);
+			String type = taskConfig.getString("type");
+			
 			if (type.equals("A")) {
 				tasks.add(new TaskA(input));
+			} else if (type.equals("B")) {
+				tasks.add(new TaskB(input, taskConfig));
 			}
 		}
 		
