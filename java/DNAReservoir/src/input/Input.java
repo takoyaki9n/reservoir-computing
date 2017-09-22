@@ -14,9 +14,9 @@ public class Input {
 	
 	public Input(JsonObject config) {
 		start = config.getInt("start");
-		end = config.containsKey("end")? config.getInt("end"): Main.manager.simulationTime;
+		end = config.containsKey("end")? config.getInt("end"): SimulationManager.simulationTime;
 		
-		length = Math.max(end, Main.manager.simulationTime);
+		length = Math.max(end, SimulationManager.simulationTime);
 		data = new ArrayList<Double>(length);
 	}
 	
@@ -28,8 +28,7 @@ public class Input {
 		return data;
 	}
 	
-	static public Input generateInput(SimulationManager manager) {
-		JsonObject inputConfig = manager.config.getJsonObject("input");
+	static public Input generateInput(JsonObject inputConfig) {
 		String type = inputConfig.getString("type");
 		
 		if (type.equals("random")) {			
