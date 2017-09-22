@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.json.JsonObject;
 
-import main.Main;
 import util.SimulationManager;
 
 public class Input {
