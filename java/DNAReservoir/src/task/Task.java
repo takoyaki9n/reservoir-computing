@@ -27,19 +27,24 @@ public class Task {
 		return data;
 	}
 	
-	static public ArrayList<Task> generateTasks(Input input, JsonArray tasksConfig) {		
+	static private Task generateTask(Input input, JsonObject taskConfig) {
+		String type = taskConfig.getString("type");
+		
+		if (type.equals("A")) {
+			return new TaskA(input);
+		} else if (type.equals("B")) {
+			return new TaskB(input, taskConfig);
+		}
+		
+		return null;
+	}
+	
+	static public ArrayList<Task> generateTaskArray(Input input, JsonArray tasksConfig) {		
 		ArrayList<Task> tasks = new ArrayList<>();
 		for (int i = 0; i < tasksConfig.size(); i++) {
 			JsonObject taskConfig = tasksConfig.getJsonObject(i);
-			String type = taskConfig.getString("type");
-			
-			if (type.equals("A")) {
-				tasks.add(new TaskA(input));
-			} else if (type.equals("B")) {
-				tasks.add(new TaskB(input, taskConfig));
-			}
+			tasks.add(generateTask(input, taskConfig));
 		}
-		
 		return tasks;
 	}
 }

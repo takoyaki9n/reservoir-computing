@@ -5,7 +5,7 @@ import java.util.HashMap;
 import graphGenerator.GraphGenerator;
 import model.OligoGraph;
 import model.chemicals.SequenceVertex;
-import test.LinearRegressionTest;
+import test.TaskTest;
 import util.SimulationManager;
 
 public class Main {
@@ -34,6 +34,6 @@ public class Main {
 		SimulationManager.loadConfig(opts.get("-c"));
 		System.out.println(SimulationManager.config);
 		
-		LinearRegressionTest.run();
+		TaskTest.run();
 	}
 }
