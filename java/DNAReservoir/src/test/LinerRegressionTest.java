@@ -1,8 +1,5 @@
 package test;
 
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
-
 import util.MyOLSMultipleLinearRegression;
 
 public class LinerRegressionTest {
