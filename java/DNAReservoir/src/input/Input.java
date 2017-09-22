@@ -26,6 +26,11 @@ public class Input {
 	
 	public ArrayList<Double> getData(){ return data; }
 	
+	public Double[] getDataAsArray() {
+		Double[] array = new Double[length];
+		return data.toArray(array);
+	}
+	
 	static private Input generateInput(JsonObject inputConfig) {
 		String type = inputConfig.getString("type");
 		
