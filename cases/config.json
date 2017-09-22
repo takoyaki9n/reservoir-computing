@@ -2,6 +2,7 @@
     "repeat": 100,
     "simulation_time": 5000,
     "input": {
+        "id": "random1",
         "type": "random",
         "start": 200,
         "end": 5000, // optional
@@ -10,13 +11,15 @@
         "max" : 0.25,
     },
     "tasks": [
-        {"type": "A"}, {"type": "B", "interval": 5}
+        {"type": "A", "input": "random1"}, {"type": "B", "interval": 5, "input":"random1"}
     ],
     "graph": {
         "type": "random",
         "nS": 5, "nI": 5, "mS": 5, "mI": 5,
+        "inputs": [{"input_id": "random1", "vertex_id": 1}]
 
         //"type": "oscillator",
         //"n": 3,
+        // "inputs": [{"input_id": "random1", "vertex_id": 1}]
     }
 }

@@ -1,17 +1,26 @@
 package task;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.json.JsonObject;
 
 import input.Input;
 
 public class TaskB extends Task {
+	protected Input input;
+
 	private int interval;
 
-	public TaskB(Input input, JsonObject config) {
-		super(input);
-		interval = config.getInt("interval");
+	public TaskB(JsonObject taskConfig, HashMap<String, Input> inputs) {
+		input = inputs.get(taskConfig.getString("input"));
+		
+		interval = taskConfig.getInt("interval");
 		start = (int) (input.start + interval * 1.5);
 		end = input.end;
+		length = input.length;
+		
+		data = new ArrayList<>(length);
 		
 		initializeData();
 	}

@@ -1,13 +1,23 @@
 package task;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.json.JsonObject;
+
 import input.Input;
 
 public class TaskA extends Task {
-	
-	public TaskA(Input input) {
-		super(input);
+	protected Input input;
+
+	public TaskA(JsonObject taskConfig, HashMap<String, Input> inputs) {
+		input = inputs.get(taskConfig.getString("input"));
+		
 		start = input.start + 2;
 		end = input.end;
+		length = input.length;
+		
+		data = new ArrayList<>(length);
 		
 		initializeData();
 	}

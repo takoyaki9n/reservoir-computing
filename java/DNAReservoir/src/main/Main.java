@@ -2,7 +2,7 @@ package main;
 
 import java.util.HashMap;
 
-import test.GraphTest;
+import test.TaskTest;
 import util.SimulationManager;
 
 public class Main {	
@@ -27,6 +27,6 @@ public class Main {
 		SimulationManager.loadConfig(opts.get("-c"));
 		System.out.println(SimulationManager.config);
 		
-		GraphTest.run();
+		TaskTest.run();
 	}
 }
