@@ -2,9 +2,9 @@ package test;
 
 import util.MyOLSMultipleLinearRegression;
 
-public class LinerRegressionTest {
+public class LinearRegressionTest {
 
-	public LinerRegressionTest() {
+	static public void run() {
 		// estimate weights from heights and waist
 		MyOLSMultipleLinearRegression regression = new MyOLSMultipleLinearRegression();
 		// weight
@@ -40,8 +40,7 @@ public class LinerRegressionTest {
 	    		zmn = Math.min(zmn, z[i]);
 	    }
 	    
-	    double rss = regression.calculateResidualSumOfSquares();
-	    double rmse = Math.sqrt(rss / y.length);
-	    double nrmse = rmse / Math.abs(zmx - zmn);
+	    double nrmse = regression.calculateNRMSE();
+	    System.out.println(nrmse);
 	}
 }
