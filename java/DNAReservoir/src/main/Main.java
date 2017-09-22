@@ -6,9 +6,10 @@ import graphGenerator.GraphGenerator;
 import model.OligoGraph;
 import model.chemicals.SequenceVertex;
 import test.TaskTest;
+import util.SimulationManager;
 
 public class Main {
-	public static SimulationConfig config;
+	public static SimulationManager manager;
 	static GraphGenerator gen;
 	static OligoGraph<SequenceVertex, String> graph;
 	
@@ -30,8 +31,8 @@ public class Main {
 			System.err.println("Config file is required.");
 			System.exit(-1);
 		}
-		config = new SimulationConfig(opts.get("-c"));
-		System.out.println(config.json);
+		manager = new SimulationManager(opts.get("-c"));
+		System.out.println(manager.config);
 		
 		TaskTest.run();
 	}

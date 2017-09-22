@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.json.JsonObject;
 
 import main.Main;
-import util.SimulationConfig;
+import util.SimulationManager;
 
 public class Input {
 	protected ArrayList<Double> data;
@@ -14,9 +14,9 @@ public class Input {
 	
 	public Input(JsonObject config) {
 		start = config.getInt("start");
-		end = config.containsKey("end")? config.getInt("end"): Main.config.simulationTime;
+		end = config.containsKey("end")? config.getInt("end"): Main.manager.simulationTime;
 		
-		length = Math.max(end, Main.config.simulationTime);
+		length = Math.max(end, Main.manager.simulationTime);
 		data = new ArrayList<Double>(length);
 	}
 	
@@ -28,8 +28,8 @@ public class Input {
 		return data;
 	}
 	
-	static public Input generateInput(SimulationConfig config) {
-		JsonObject inputConfig = config.json.getJsonObject("input");
+	static public Input generateInput(SimulationManager manager) {
+		JsonObject inputConfig = manager.config.getJsonObject("input");
 		String type = inputConfig.getString("type");
 		
 		if (type.equals("random")) {			

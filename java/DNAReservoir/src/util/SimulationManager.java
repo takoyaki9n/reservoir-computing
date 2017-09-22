@@ -9,21 +9,21 @@ import javax.json.JsonReader;
 
 import model.Constants;
 
-public class SimulationConfig {
-	public JsonObject json;
+public class SimulationManager {
+	public JsonObject config;
 	
 	public int repeat, simulationTime;
 	
-	public SimulationConfig(String configFileName) {
+	public SimulationManager(String configFileName) {
 		File jsonFile = new File(configFileName);
 		try (JsonReader reader = Json.createReader(new FileReader(jsonFile))) {
-			this.json = reader.readObject();
+			this.config = reader.readObject();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		repeat = json.getInt("repeat");
-		simulationTime = json.getInt("simulation_time");
+		repeat = config.getInt("repeat");
+		simulationTime = config.getInt("simulation_time");
 		Constants.numberOfPoints = simulationTime;
 	}
 	

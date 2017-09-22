@@ -6,7 +6,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 
 import input.Input;
-import util.SimulationConfig;
+import util.SimulationManager;
 
 public class Task {
 	protected ArrayList<Double> data;
@@ -28,8 +28,8 @@ public class Task {
 		return data;
 	}
 	
-	static public ArrayList<Task> generateTasks(Input input, SimulationConfig config) {
-		JsonArray taskConfigs = config.json.getJsonArray("tasks");
+	static public ArrayList<Task> generateTasks(Input input, SimulationManager manager) {
+		JsonArray taskConfigs = manager.config.getJsonArray("tasks");
 		
 		ArrayList<Task> tasks = new ArrayList<>();
 		for (int i = 0; i < taskConfigs.size(); i++) {
