@@ -5,7 +5,6 @@ import java.util.HashMap;
 import graphGenerator.GraphGenerator;
 import model.OligoGraph;
 import model.chemicals.SequenceVertex;
-import test.TaskTest;
 import util.SimulationManager;
 
 public class Main {
@@ -31,9 +30,7 @@ public class Main {
 			System.err.println("Config file is required.");
 			System.exit(-1);
 		}
-		manager = new SimulationManager(opts.get("-c"));
-		System.out.println(manager.config);
-		
-		TaskTest.run();
+		SimulationManager.loadConfig(opts.get("-c"));
+		System.out.println(SimulationManager.config);
 	}
 }

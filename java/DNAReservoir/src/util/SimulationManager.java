@@ -10,14 +10,14 @@ import javax.json.JsonReader;
 import model.Constants;
 
 public class SimulationManager {
-	public JsonObject config;
+	public static JsonObject config;
 	
-	public int repeat, simulationTime;
+	public static int repeat, simulationTime;
 	
-	public SimulationManager(String configFileName) {
-		File jsonFile = new File(configFileName);
-		try (JsonReader reader = Json.createReader(new FileReader(jsonFile))) {
-			this.config = reader.readObject();
+	public static void loadConfig(String configFileName) {
+		File configFile = new File(configFileName);
+		try (JsonReader reader = Json.createReader(new FileReader(configFile))) {
+			config = reader.readObject();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -26,5 +26,4 @@ public class SimulationManager {
 		simulationTime = config.getInt("simulation_time");
 		Constants.numberOfPoints = simulationTime;
 	}
-	
 }
