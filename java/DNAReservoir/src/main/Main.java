@@ -2,17 +2,10 @@ package main;
 
 import java.util.HashMap;
 
-import graph.GraphGenerator;
-import model.OligoGraph;
-import model.chemicals.SequenceVertex;
 import test.GraphTest;
 import util.SimulationManager;
 
-public class Main {
-	public static SimulationManager manager;
-	static GraphGenerator gen;
-	static OligoGraph<SequenceVertex, String> graph;
-	
+public class Main {	
 	public static HashMap<String, String> getOpts(String[] args){
 		HashMap<String, String> opts = new HashMap<>();
 		for (int i = 0; i < args.length; i++) {
