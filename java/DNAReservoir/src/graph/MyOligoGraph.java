@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.json.JsonObject;
+
 import model.Constants;
 import model.OligoGraph;
 import model.SlowdownConstants;
@@ -48,6 +50,15 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
     				return "Inhib"+s;
     			}
 	    });
+	}
+	
+	public void buildGraph() {}
+	
+	public SequenceVertex getVertexByID(Integer ID) {
+		for (SequenceVertex v : getVertices()) {
+			if (v.ID.equals(ID)) return v;
+		}
+		return null;
 	}
 	
 	public void export(String fileName){
@@ -116,10 +127,8 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 			e1.printStackTrace();
 		}
 	}
-
-	public void buildGraph() {}
 	
-	public static MyOligoGraph generateGraph() {
+	public static MyOligoGraph generateGraph(JsonObject graphConfig) {
 		// TODO: implement
 		return new MyOligoGraph();
 	}
