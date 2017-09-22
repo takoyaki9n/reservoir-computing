@@ -19,13 +19,9 @@ public class Task {
 		data = new ArrayList<Double>(length);
 	}
 	
-	public double get(int i) {
-		return data.get(i);
-	}
+	public double get(int i) { return data.get(i); }
 	
-	public ArrayList<Double> getData(){
-		return data;
-	}
+	public ArrayList<Double> getData(){ return data; }
 	
 	static private Task generateTask(Input input, JsonObject taskConfig) {
 		String type = taskConfig.getString("type");
