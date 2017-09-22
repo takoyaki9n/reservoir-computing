@@ -66,8 +66,8 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 		ArrayList<SequenceVertex> list = new ArrayList<SequenceVertex>(getVertices());
 		Collections.sort(list, new SequenceVertexComparator());
 		for (SequenceVertex v: list){
-			double x = 600 * Math.random();
-			double y = 275 * Math.random();
+			double x = 600 * Math.random(); //TODO: config window size
+			double y = 275 * Math.random(); //TODO: config window size
 			res += v.ID+"\t"+v.initialConcentration+"\t"+x+"\t"+y+"\t"+getK(v)+"\n";
 		}
 		res+= "TEM\n";
