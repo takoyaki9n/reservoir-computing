@@ -1,4 +1,4 @@
-package sample;
+package test;
 
 import java.io.File;
 import java.io.FileReader;
@@ -7,8 +7,8 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
-public class JsonSample {	
-	public JsonSample(String jsonFileName) {
+public class JsonTest {	
+	public JsonTest(String jsonFileName) {
 		File jsonFile = new File(jsonFileName);
 		try (JsonReader reader = Json.createReader(new FileReader(jsonFile))) {
 			JsonObject jobj = reader.readObject();

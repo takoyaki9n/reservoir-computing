@@ -1,15 +1,18 @@
-package sample;
+package test;
 
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
 
-public class LinerRegressionSample {
+import util.MyOLSMultipleLinearRegression;
 
-	public LinerRegressionSample() {
-		OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
+public class LinerRegressionTest {
+
+	public LinerRegressionTest() {
+		// estimate weights from heights and waist
+		MyOLSMultipleLinearRegression regression = new MyOLSMultipleLinearRegression();
 		// weight
 		double[] y = new double[] { 50, 60, 65, 65, 70, 75, 80, 85, 90, 95 };
-		// tall, 
+		// height, waist
 		double[][] x = new double[10][];
 		x[0] = new double[] { 165, 65 };
 		x[1] = new double[] { 170, 68 };
@@ -31,15 +34,11 @@ public class LinerRegressionSample {
 		}
 	    System.out.println();
 	    
-	    double[] z = new double[10];
-	    for (int i = 0; i < z.length; i++) {
-			z[i] = coe[0];
-			for (int j = 1; j < coe.length; j++) z[i] += coe[j] * x[i][j - 1];
-			System.out.println(y[i] + " " + z[i]);
-		}
+	    double[] z = regression.calculateEstimatedValues();
 	    
 	    double zmx = z[0], zmn = z[0];
 	    for (int i = 1; i < z.length; i++) {
+			System.out.println(y[i] + " " + z[i]);
 	    		zmx = Math.max(zmx, z[i]);
 	    		zmn = Math.min(zmn, z[i]);
 	    }
