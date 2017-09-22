@@ -7,7 +7,6 @@ import model.OligoSystem;
 public class GraphTest {
 	public static void run() {
 		MyOligoGraph graph = new RandomGraph(5, 5, 5, 5);
-		graph.buildGraph();
 		System.out.println(graph);
 		System.out.println(graph.getVertexByID(1));
 		

@@ -23,9 +23,10 @@ public class RandomGraph extends MyOligoGraph {
 	
 	public RandomGraph(JsonObject config) {
 		this(config.getInt("nS"), config.getInt("nI"), config.getInt("mS"), config.getInt("mI"));
+		buildGraph();
 	}
 	
-	public void buildGraph() {
+	protected void buildGraph() {
 		this.makeSpanningTree();
 		this.addActivation();
 		this.addInhibition();

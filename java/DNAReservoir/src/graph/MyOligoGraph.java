@@ -52,7 +52,7 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 	    });
 	}
 	
-	public void buildGraph() {}
+	protected void buildGraph() {}
 	
 	public SequenceVertex getVertexByID(Integer ID) {
 		for (SequenceVertex v : getVertices()) {

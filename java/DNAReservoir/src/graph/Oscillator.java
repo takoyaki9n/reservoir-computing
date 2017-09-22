@@ -17,9 +17,10 @@ public class Oscillator extends MyOligoGraph {
 	
 	public Oscillator(JsonObject config) {
 		this(config.getInt("n"));
+		buildGraph();
 	}
 	
-	public void buildGraph() {
+	protected void buildGraph() {
 		SequenceVertex[] signal = new SequenceVertex[n];
 		SequenceVertex[] inhibitor = new SequenceVertex[n];
 		for (int i = 0; i < n; i++) {
