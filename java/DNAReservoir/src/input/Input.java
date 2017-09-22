@@ -26,7 +26,7 @@ public class Input {
 	
 	public ArrayList<Double> getData(){ return data; }
 	
-	static public Input generateInput(JsonObject inputConfig) {
+	static private Input generateInput(JsonObject inputConfig) {
 		String type = inputConfig.getString("type");
 		
 		if (type.equals("random")) {			
