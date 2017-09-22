@@ -1,4 +1,4 @@
-package graphGenerator;
+package graph;
 
 import javax.json.JsonObject;
 

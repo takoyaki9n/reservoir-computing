@@ -1,7 +1,7 @@
 package test;
 
-import graphGenerator.MyOligoGraph;
-import graphGenerator.RandomGraph;
+import graph.MyOligoGraph;
+import graph.RandomGraph;
 import model.OligoSystem;
 
 public class GraphTest {

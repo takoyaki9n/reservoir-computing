@@ -2,7 +2,7 @@ package main;
 
 import java.util.HashMap;
 
-import graphGenerator.GraphGenerator;
+import graph.GraphGenerator;
 import model.OligoGraph;
 import model.chemicals.SequenceVertex;
 import test.GraphTest;
