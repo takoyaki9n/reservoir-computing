@@ -3,9 +3,10 @@ package main;
 import java.util.HashMap;
 
 import graphGenerator.GraphGenerator;
+import graphGenerator.MyOligoGraph;
+import graphGenerator.Oscillator;
 import model.OligoGraph;
 import model.chemicals.SequenceVertex;
-import test.TaskTest;
 import util.SimulationManager;
 
 public class Main {
@@ -34,6 +35,8 @@ public class Main {
 		SimulationManager.loadConfig(opts.get("-c"));
 		System.out.println(SimulationManager.config);
 		
-		TaskTest.run();
+		MyOligoGraph g = new Oscillator(3);
+		g.buildGraph();
+		System.out.println(g);
 	}
 }

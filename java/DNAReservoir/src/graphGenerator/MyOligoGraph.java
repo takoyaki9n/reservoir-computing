@@ -117,7 +117,7 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 		}
 	}
 
-	void buildGraph() {}
+	public void buildGraph() {}
 	
 	public static MyOligoGraph generateGraph() {
 		// TODO: implement
