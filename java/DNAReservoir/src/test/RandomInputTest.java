@@ -1,7 +1,6 @@
 package test;
 
 import input.Input;
-import main.Main;
 import util.SimulationManager;
 
 public class RandomInputTest {
