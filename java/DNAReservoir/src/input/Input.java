@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.json.JsonObject;
 
 import main.Main;
-import main.SimulationConfig;
+import util.SimulationConfig;
 
 public class Input {
 	protected ArrayList<Double> data;

@@ -6,7 +6,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 
 import input.Input;
-import main.SimulationConfig;
+import util.SimulationConfig;
 
 public class Task {
 	protected ArrayList<Double> data;
