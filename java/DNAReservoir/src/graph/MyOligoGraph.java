@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 
+import input.Input;
 import model.Constants;
 import model.OligoGraph;
 import model.SlowdownConstants;
@@ -53,6 +56,21 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 	}
 	
 	protected void buildGraph() {}
+	
+	protected void attachInputs(JsonObject graphConfig, HashMap<String, Input> inputs) {
+		JsonArray inputConfigArray = graphConfig.getJsonArray("inputs");
+		for (int i = 0; i < inputConfigArray.size(); i++) {
+			JsonObject inputConfig = inputConfigArray.getJsonObject(i);
+			
+			int vertexId = inputConfig.getInt("vertex_id");
+			String inputId = inputConfig.getString("input_id");			
+			
+			SequenceVertex vertex = getVertexByID(vertexId);
+			Input input = inputs.get(inputId);
+			
+			vertex.inputs.add(new ExternalInput(input.getDataAsArray(), null)); //MEMO: bad hack
+		}
+	}
 	
 	public SequenceVertex getVertexByID(Integer ID) {
 		for (SequenceVertex v : getVertices()) {
