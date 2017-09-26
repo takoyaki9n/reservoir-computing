@@ -146,8 +146,15 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 		}
 	}
 	
-	public static MyOligoGraph generateGraph(JsonObject graphConfig) {
-		// TODO: implement
-		return new MyOligoGraph();
+	public static MyOligoGraph generateGraph(JsonObject graphConfig, HashMap<String, Input> inputs) {
+		String type = graphConfig.getString("type");
+		
+		if (type.equals("oscillator")) {
+			return new Oscillator(graphConfig);
+		} else if (type.equals("random")) {
+			return new RandomGraph(graphConfig);
+		}
+		
+		return null;
 	}
 }
