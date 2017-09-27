@@ -20,6 +20,6 @@
 
         //"type": "oscillator",
         //"n": 3,
-        // "inputs": [{"input_id": "random1", "vertex_id": 1}]
+        //"inputs": [{"input_id": "random1", "vertex_id": 1}]
     }
 }

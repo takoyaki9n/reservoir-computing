@@ -27,6 +27,6 @@ public class Main {
 		SimulationManager.loadConfig(opts.get("-c"));
 		System.out.println(SimulationManager.config);
 		
-		TaskTest.run();
+		SimulationManager.run();
 	}
 }
