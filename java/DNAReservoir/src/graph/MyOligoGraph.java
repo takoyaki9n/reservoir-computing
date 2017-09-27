@@ -146,7 +146,7 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 		}
 	}
 	
-	public static MyOligoGraph generateGraph(JsonObject graphConfig, HashMap<String, Input> inputs) {
+	public static MyOligoGraph generateGraph(JsonObject graphConfig) {
 		String type = graphConfig.getString("type");
 		
 		if (type.equals("oscillator")) {
