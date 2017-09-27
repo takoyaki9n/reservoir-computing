@@ -1,5 +1,8 @@
 package input;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,6 +15,8 @@ public class Input {
 	public String id;
 	public int start, end, length;
 	
+	public File file;
+	
 	//TOTO: to double[]
 	protected ArrayList<Double> data;
 
@@ -21,7 +26,7 @@ public class Input {
 		end = config.containsKey("end")? config.getInt("end"): SimulationManager.simulationTime;
 		
 		length = Math.max(end, SimulationManager.simulationTime);
-		data = new ArrayList<Double>(length);
+		data = new ArrayList<Double>(length);		
 	}
 	
 	public double get(int i) { return data.get(i); }
@@ -31,6 +36,19 @@ public class Input {
 	public Double[] getDataAsArray() {
 		Double[] array = new Double[length];
 		return data.toArray(array);
+	}
+	
+	public void export(String fileName){
+		file = new File(fileName);
+		try {
+			FileWriter writer = new FileWriter(file);
+			for (int t = 0; t< length; t++) {
+				writer.write(get(t) + "\n");
+			}
+			writer.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	static private Input generateInput(JsonObject inputConfig) {
