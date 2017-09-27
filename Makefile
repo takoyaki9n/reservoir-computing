@@ -1,8 +1,8 @@
 REPO_ROOT=./$(shell git rev-parse --show-cdup)
 
-JAVA_SRC=$(shell find "$(REPO_ROOT)java" -name *.java)
-DNA_RESERVOIR=$(REPO_ROOT)java/DNAReservoir/
-DACCAD=$(REPO_ROOT)java/daccad/DACCAD/
+JAVA_SRC=$(shell find "$(REPO_ROOT)" -name *.java)
+DNA_RESERVOIR=$(REPO_ROOT)DNAReservoir/
+DACCAD=$(REPO_ROOT)daccad/DACCAD/
 JAR=$(DNA_RESERVOIR)build/libs/DNAReservoir.jar
 
 ECLIPSE_SETTINGS=$(DNA_RESERVOIR).classpath $(DNA_RESERVOIR).settings $(DNA_RESERVOIR).project $(DACCAD).classpath $(DACCAD).settings $(DACCAD).project
