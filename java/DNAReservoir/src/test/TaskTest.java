@@ -1,6 +1,5 @@
 package test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import input.Input;
@@ -9,17 +8,14 @@ import util.SimulationManager;
 
 public class TaskTest {
 	static public void run() {
-		HashMap<String, Input> inputs = new HashMap<>();
-		for (Input input : Input.generateInputArray(SimulationManager.config.getJsonArray("inputs"))) {
-			inputs.put(input.id, input);
-		}
+		HashMap<String, Input> inputs = Input.generateInputMap(SimulationManager.config.getJsonArray("inputs"));
 		
-		ArrayList<Task> tasks = Task.generateTaskArray(SimulationManager.config.getJsonArray("tasks"), inputs);
+		HashMap<String, Task> tasks = Task.generateTaskMap(SimulationManager.config.getJsonArray("tasks"), inputs);
 		
 		for (int i = 0; i < SimulationManager.simulationTime; i++) {
 			System.out.print(i + " ");
 			for (String id : inputs.keySet()) System.out.print(inputs.get(id).get(i) + " ");
-			System.out.println(tasks.get(0).get(i) + " " + tasks.get(1).get(i));
+			System.out.println(tasks.get("A").get(i) + " " + tasks.get("B").get(i));
 		}
 	}
 }
