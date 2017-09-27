@@ -17,6 +17,7 @@ import model.chemicals.SequenceVertex;
 import model.input.AbstractInput;
 import model.input.ExternalInput;
 import model.input.PulseInput;
+import util.SimulationManager;
 import utils.EdgeFactory;
 import utils.SequenceVertexComparator;
 import utils.VertexFactory;
@@ -68,7 +69,8 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 			SequenceVertex vertex = getVertexByID(vertexId);
 			Input input = inputs.get(inputId);
 			
-			vertex.inputs.add(new ExternalInput(input.getDataAsArray(), null)); //MEMO: bad hack
+			input.export(SimulationManager.caseDir + "/input_" + input.id + ".dat");
+			vertex.inputs.add(new ExternalInput(input.getDataAsArray(), input.file));
 		}
 	}
 	
