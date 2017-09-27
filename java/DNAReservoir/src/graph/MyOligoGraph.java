@@ -57,7 +57,7 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 	
 	protected void buildGraph() {}
 	
-	protected void attachInputs(JsonObject graphConfig, HashMap<String, Input> inputs) {
+	public void attachInputs(JsonObject graphConfig, HashMap<String, Input> inputs) {
 		JsonArray inputConfigArray = graphConfig.getJsonArray("inputs");
 		for (int i = 0; i < inputConfigArray.size(); i++) {
 			JsonObject inputConfig = inputConfigArray.getJsonObject(i);
