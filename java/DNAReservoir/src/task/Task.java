@@ -1,5 +1,7 @@
 package task;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,6 +28,18 @@ public class Task {
 		return array;
 	}
 	
+	public void export(String fileName){
+		try {
+			FileWriter writer = new FileWriter(fileName);
+			for (int t = 0; t< length; t++) {
+				writer.write(get(t) + "\n");
+			}
+			writer.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
 	static private Task generateTask(JsonObject taskConfig, HashMap<String, Input> inputs) {
 		String type = taskConfig.getString("type");
 		
