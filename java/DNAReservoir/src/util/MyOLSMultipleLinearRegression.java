@@ -39,7 +39,8 @@ public class MyOLSMultipleLinearRegression extends OLSMultipleLinearRegression {
 	    return Math.sqrt(rss / n) / Math.abs(zmx - zmn);
 	}
 	
-	public double calculateNRMSE(double[] y, double[][] x) {
+	public double calculateNRMSE(double[] y, double[][] x) {		
+		// TODO: redundant
 		double n = getX().getRowDimension();
 		
 		double[] z = calculateEstimatedValues(x);
