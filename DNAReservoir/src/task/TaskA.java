@@ -16,19 +16,18 @@ public class TaskA extends Task {
 		start = input.start + 2;
 		end = input.end;
 		length = input.length;
-		
-		data = new ArrayList<>(length);
-		
+				
 		initializeData();
 	}
 	
 	private void initializeData() {
+		data = new double[length];
 		for (int t = 0; t < length; t++) {
 			double v = 0.0;
 			if (start <= t && t < end) {
 				v = input.get(t - 1) + 2.0 * input.get(t - 2);
 			}
-			data.add(v);
+			data[t] = v;
 		}		
 	}
 }

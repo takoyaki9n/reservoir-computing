@@ -89,7 +89,7 @@ public class SimulationManager {
 		for (String taskType : tasks.keySet()) {
 			Task task = tasks.get(taskType);
 			double[][] resultTrimed = Arrays.copyOfRange(result, task.start, task.end);
-			double[] taskTrinmed = Arrays.copyOfRange(task.getDataAsArray(), task.start, task.end);
+			double[] taskTrinmed = Arrays.copyOfRange(task.getData(), task.start, task.end);
 			
 			MyOLSMultipleLinearRegression regression = new MyOLSMultipleLinearRegression();
 			regression.setNoIntercept(true);
@@ -125,7 +125,7 @@ public class SimulationManager {
 		for (String taskType : tasks.keySet()) {
 			Task task = tasks.get(taskType);
 			double[][] resultTrimed = Arrays.copyOfRange(result, task.start, task.end);
-			double[] taskTrinmed = Arrays.copyOfRange(task.getDataAsArray(), task.start, task.end);
+			double[] taskTrinmed = Arrays.copyOfRange(task.getData(), task.start, task.end);
 			
 			MyOLSMultipleLinearRegression regression = regressions.get(taskType);
 			

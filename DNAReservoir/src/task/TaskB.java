@@ -20,12 +20,12 @@ public class TaskB extends Task {
 		end = input.end;
 		length = input.length;
 		
-		data = new ArrayList<>(length);
-		
 		initializeData();
 	}
 	
 	private void initializeData() {
+		data = new double[length];
+		
 		for (int t = 0; t < length; t++) {
 			double v = 0.0;
 			if (start <= t && t < end) {
@@ -33,7 +33,7 @@ public class TaskB extends Task {
 				int t2 = (int) (t - interval * 1.5);
 				v = input.get(t1) + 0.5 * input.get(t2);
 			}
-			data.add(v);
+			data[t] = v;
 		}		
 	}
 }

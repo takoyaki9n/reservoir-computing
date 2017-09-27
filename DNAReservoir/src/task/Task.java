@@ -13,18 +13,18 @@ import input.Input;
 public class Task {
 	public int start, end, length;
 	
-	//TOTO: to double[]
-	protected ArrayList<Double> data;
+	protected double[] data;
 	
-	public double get(int i) { return data.get(i); }
+	public Task() {
+	}
 	
-	public ArrayList<Double> getData(){ return data; }
+	public double get(int i) { return data[i]; }
 	
-	public double[] getDataAsArray() {
-		double[] array = new double[length];
-		for (int i = 0; i < length; i++) {
-			array[i] = data.get(i).doubleValue();
-		}
+	public double[] getData(){ return data; }
+	
+	public Double[] getDataAsDouble() {
+		Double[] array = new Double[length];
+		for (int i = 0; i < length; i++) array[i] = new Double(data[i]);
 		return array;
 	}
 	
