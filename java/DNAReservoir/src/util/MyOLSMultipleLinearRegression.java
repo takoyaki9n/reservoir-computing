@@ -1,4 +1,7 @@
 package util;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
 
@@ -14,6 +17,12 @@ public class MyOLSMultipleLinearRegression extends OLSMultipleLinearRegression {
 	public double[] calculateEstimatedValues() {
         RealVector b = calculateBeta();
         return getX().operate(b).toArray();
+	}
+	
+	public double[] calculateEstimatedValues(double[][] x) {
+        RealMatrix xMatrix = new Array2DRowRealMatrix(x);
+        RealVector b = calculateBeta();
+        return xMatrix.operate(b).toArray();
 	}
 	
 	public double calculateNRMSE() {
