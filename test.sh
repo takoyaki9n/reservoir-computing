@@ -1,1 +1,0 @@
-python test.py case$1 > case$1/result_test.txt

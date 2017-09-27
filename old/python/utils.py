@@ -11,13 +11,13 @@ def load_input(input_file):
 
 def load_waves(wave_file):
     f = open(wave_file, "r")
-    next(f)
     waves = []
     for line in f:
-        line = line.rstrip("\t\n").split("\t")
-        row = [float(d) for d in line]
-        row.append(1.0)
-        waves.append(row)
+        if line[0] != "#":
+            line = line.rstrip("\t\n").split("\t")
+            row = [float(d) for d in line]
+            row.append(1.0)
+            waves.append(row)
     f.close()
     return waves
 

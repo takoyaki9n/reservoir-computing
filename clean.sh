@@ -1,1 +1,0 @@
-rm case$1/*.txt case$1/*.png case$1/params.json case$1/nrmse.json
