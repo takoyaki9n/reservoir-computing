@@ -38,4 +38,21 @@ public class MyOLSMultipleLinearRegression extends OLSMultipleLinearRegression {
 	    
 	    return Math.sqrt(rss / n) / Math.abs(zmx - zmn);
 	}
+	
+	public double calculateNRMSE(double[] y, double[][] x) {
+		double n = getX().getRowDimension();
+		
+		double[] z = calculateEstimatedValues(x);
+		double zmn = z[0], zmx = z[0];
+		for (int i = 0; i < n; i++) {
+			zmn = Math.min(zmn, z[i]);
+			zmx = Math.max(zmx, z[i]);
+		}
+		
+		RealVector yVector = new ArrayRealVector(y); 
+		RealVector residual = yVector.subtract(new ArrayRealVector(z));
+	    double rss = residual.dotProduct(residual);
+	    
+	    return Math.sqrt(rss / n) / Math.abs(zmx - zmn);
+	}
 }
