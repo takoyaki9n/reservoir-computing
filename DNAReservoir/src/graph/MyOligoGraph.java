@@ -70,7 +70,7 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 			Input input = inputs.get(inputId);
 			
 			input.export(SimulationManager.caseDir + "/input_" + input.id + ".dat");
-			vertex.inputs.add(new ExternalInput(input.getDataAsArray(), input.file));
+			vertex.inputs.add(new ExternalInput(input.getDataAsDouble(), input.file));
 		}
 	}
 	

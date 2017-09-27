@@ -2,7 +2,7 @@ package main;
 
 import java.util.HashMap;
 
-import test.TaskTest;
+import test.InputTest;
 import util.SimulationManager;
 
 public class Main {	
@@ -27,6 +27,6 @@ public class Main {
 		SimulationManager.loadConfig(opts.get("-c"));
 		System.out.println(SimulationManager.config);
 		
-		SimulationManager.run();
+		InputTest.run();
 	}
 }

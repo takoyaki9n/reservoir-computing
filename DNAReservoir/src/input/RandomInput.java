@@ -28,7 +28,7 @@ public class RandomInput extends Input {
 			} else {
 				v = 0.0;				
 			}
-			data.add(v);
+			data[t] = v;
 		}		
 	}
 }

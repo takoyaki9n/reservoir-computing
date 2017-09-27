@@ -3,7 +3,6 @@ package input;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.json.JsonArray;
@@ -18,7 +17,7 @@ public class Input {
 	public File file;
 	
 	//TOTO: to double[]
-	protected ArrayList<Double> data;
+	protected double[] data;
 
 	public Input(JsonObject config) {
 		id = config.getString("id");
@@ -26,16 +25,17 @@ public class Input {
 		end = config.containsKey("end")? config.getInt("end"): SimulationManager.simulationTime;
 		
 		length = Math.max(end, SimulationManager.simulationTime);
-		data = new ArrayList<Double>(length);		
+		data = new double[length];
 	}
 	
-	public double get(int i) { return data.get(i); }
+	public double get(int i) { return data[i]; }
 	
-	public ArrayList<Double> getData(){ return data; }
+	public double[] getData(){ return data; }
 	
-	public Double[] getDataAsArray() {
+	public Double[] getDataAsDouble(){ 
 		Double[] array = new Double[length];
-		return data.toArray(array);
+		for (int i = 0; i < array.length; i++) array[i] = new Double(data[i]);
+		return array; 
 	}
 	
 	public void export(String fileName){
