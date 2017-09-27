@@ -1,6 +1,7 @@
 package input;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -11,6 +12,7 @@ public class Input {
 	public String id;
 	public int start, end, length;
 	
+	//TOTO: to double[]
 	protected ArrayList<Double> data;
 
 	public Input(JsonObject config) {
@@ -41,11 +43,11 @@ public class Input {
 		return null;
 	}
 	
-	static public ArrayList<Input> generateInputArray(JsonArray inputsConfig) {
-		ArrayList<Input> inputs = new ArrayList<>();
+	static public HashMap<String, Input> generateInputMap(JsonArray inputsConfig) {
+		HashMap<String, Input> inputs = new HashMap<>();
 		for (int i = 0; i < inputsConfig.size(); i++) {
 			JsonObject inputConfig = inputsConfig.getJsonObject(i);
-			inputs.add(generateInput(inputConfig));
+			inputs.put(inputConfig.getString("id"), generateInput(inputConfig));
 		}
 		return inputs;
 	}
