@@ -38,11 +38,11 @@ public class Task {
 		return null;
 	}
 	
-	static public ArrayList<Task> generateTaskArray(JsonArray tasksConfig, HashMap<String, Input> inputs) {		
-		ArrayList<Task> tasks = new ArrayList<>();
+	static public HashMap<String, Task> generateTaskMap(JsonArray tasksConfig, HashMap<String, Input> inputs) {		
+		HashMap<String, Task> tasks = new HashMap<>();
 		for (int i = 0; i < tasksConfig.size(); i++) {
 			JsonObject taskConfig = tasksConfig.getJsonObject(i);
-			tasks.add(generateTask(taskConfig, inputs));
+			tasks.put(taskConfig.getString("type"), generateTask(taskConfig, inputs));
 		}
 		return tasks;
 	}
