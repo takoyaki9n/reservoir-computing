@@ -1,5 +1,6 @@
 __pycache__
 .vscode/*
 
-old
+old/
+old.zip
 cases/*
