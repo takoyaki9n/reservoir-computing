@@ -2,6 +2,8 @@ package util;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -111,7 +113,22 @@ public class SimulationManager {
 			for (int i = 0; i < graph.getVertexCount(); i++) 
 				resultT[t][i + 1] = result[i][t];
 		}
+		exportWaves(caseDir + "/waves.dat", resultT, graph);
 		return resultT;
+	}
+	
+	private static void exportWaves(String waveFileName, double[][] result, MyOligoGraph graph) {
+		try {
+			FileWriter writer = new FileWriter(waveFileName);
+			for (int t = 0; t< simulationTime; t++) {
+				for (int i = 0; i < graph.getVertexCount(); i++) 
+					writer.write(result[t][i + 1] + "\t");
+				writer.write("\n");				
+			}
+			writer.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	private static HashMap<String, Double> test(MyOligoGraph graph, HashMap<String, MyOLSMultipleLinearRegression> regressions) {
