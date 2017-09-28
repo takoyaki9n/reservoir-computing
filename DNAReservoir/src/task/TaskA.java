@@ -1,6 +1,5 @@
 package task;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.json.JsonObject;

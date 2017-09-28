@@ -2,7 +2,6 @@ package task;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.json.JsonArray;
