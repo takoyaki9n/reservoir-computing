@@ -20,6 +20,7 @@ public class Oscillator extends MyOligoGraph {
 		buildGraph();
 	}
 	
+	@Override
 	protected void buildGraph() {
 		SequenceVertex[] signal = new SequenceVertex[n];
 		SequenceVertex[] inhibitor = new SequenceVertex[n];

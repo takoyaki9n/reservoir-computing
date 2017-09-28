@@ -26,6 +26,7 @@ public class RandomGraph extends MyOligoGraph {
 		buildGraph();
 	}
 	
+	@Override
 	protected void buildGraph() {
 		this.makeSpanningTree();
 		this.addActivation();
