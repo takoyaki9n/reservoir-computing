@@ -54,11 +54,14 @@ public class Input {
 	static private Input generateInput(JsonObject inputConfig) {
 		String type = inputConfig.getString("type");
 		
+		Input input = null;
 		if (type.equals("random")) {			
-			return new RandomInput(inputConfig);
+			input =new RandomInput(inputConfig);
 		}
 		
-		return null;
+		input.export(SimulationManager.caseDir + "/input_" + input.id + ".dat");
+
+		return input;
 	}
 	
 	static public HashMap<String, Input> generateInputMap(JsonArray inputsConfig) {

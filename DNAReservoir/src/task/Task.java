@@ -9,6 +9,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 
 import input.Input;
+import util.SimulationManager;
 
 public class Task {
 	public int start, end, length;
@@ -43,13 +44,16 @@ public class Task {
 	static private Task generateTask(JsonObject taskConfig, HashMap<String, Input> inputs) {
 		String type = taskConfig.getString("type");
 		
+		Task task = null;
 		if (type.equals("A")) {
-			return new TaskA(taskConfig, inputs);
+			task = new TaskA(taskConfig, inputs);
 		} else if (type.equals("B")) {
-			return new TaskB(taskConfig, inputs);
+			task = new TaskB(taskConfig, inputs);
 		}
 		
-		return null;
+		task.export(SimulationManager.caseDir + "/task_" + type + ".dat");
+		
+		return task;
 	}
 	
 	static public HashMap<String, Task> generateTaskMap(JsonArray tasksConfig, HashMap<String, Input> inputs) {		
