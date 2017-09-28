@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import graph.MyOligoGraph;
@@ -19,10 +22,12 @@ import model.OligoSystem;
 import task.Task;
 
 public class SimulationManager {
-	public static int repeat, simulationTime;
 	public static JsonObject config;
-	
+	public static int repeat, simulationTime;
 	public static String caseDir;
+	
+	private static HashMap<String, ArrayList<ArrayList<Double>>> betaLog;
+	private static HashMap<String, ArrayList<Double>> nrmseLog;
 	
 	public static void loadConfig(String configFileName) {
 		File configFile = new File(configFileName);
@@ -43,40 +48,27 @@ public class SimulationManager {
 		MyOligoGraph graph = MyOligoGraph.generateGraph(config.getJsonObject("graph"));
 		graph.export(caseDir + "/graph.graph");
 		
-		JsonArray tasksConfig = config.getJsonArray("tasks");
-		
-		HashMap<String, Double[]> nrmses = new HashMap<>();		
-		for (int i = 0; i < tasksConfig.size(); i++) 
-			nrmses.put(tasksConfig.getJsonObject(i).getString("type"), new Double[repeat]);
+		initLogs();
 		
 		for (int r = 0; r < repeat; r++) {
 			System.out.println("repeat: " + r);			
 			HashMap<String, MyOLSMultipleLinearRegression> regressions = train(graph);
-			HashMap<String, Double> nrmse = test(graph, regressions);
-			for (String taskType : nrmse.keySet()) 
-				nrmses.get(taskType)[r] = nrmse.get(taskType);
+			HashMap<String, Double> nrmses = test(graph, regressions);
+			updateLog(regressions, nrmses);
 		}
 		
-		HashMap<String, Double> averages = new HashMap<>();		
-		HashMap<String, Double> sigmas = new HashMap<>();		
-		for (String taskType : nrmses.keySet()) {
-			Double[] nrmseArray = nrmses.get(taskType);
-			double average = 0.0;
-			for (int i = 0; i < repeat; i++) 
-				average += nrmseArray[i];
-			average = average / repeat;
-			double sigma = 0.0;
-			for (int i = 0; i < repeat; i++) {
-				double diff = nrmseArray[i] - average;
-				sigma += diff * diff;
-			}
-			sigma = Math.sqrt(sigma / repeat);
-			averages.put(taskType, average);
-			sigmas.put(taskType, sigma);
-		}
-		
-		for (String taskType : nrmses.keySet()) {
-			System.out.println(taskType + ": " + averages.get(taskType) + "±" + sigmas.get(taskType));
+		exportLog();
+	}
+	
+	private static void initLogs() {
+		betaLog = new HashMap<>();
+		nrmseLog = new HashMap<>();
+				
+		JsonArray tasksConfig = config.getJsonArray("tasks");
+		for (int i = 0; i < tasksConfig.size(); i++) {
+			String taskType = tasksConfig.getJsonObject(i).getString("type");
+			betaLog.put(taskType, new ArrayList<ArrayList<Double>>(repeat));
+			nrmseLog.put(taskType, new ArrayList<Double>(repeat));
 		}
 	}
 	
@@ -150,5 +142,53 @@ public class SimulationManager {
 		}
 
 		return nrmses;
+	}
+	
+	private static void updateLog(HashMap<String, MyOLSMultipleLinearRegression> regressions, HashMap<String, Double> nrmses) {
+		for (String taskType : betaLog.keySet()) {
+			MyOLSMultipleLinearRegression regression = regressions.get(taskType);
+			double[] beta = regression.estimateRegressionParameters();
+			ArrayList<Double> betaArray = new ArrayList<>(beta.length);
+			for (int i = 0; i < beta.length; i++) betaArray.add(beta[i]);
+			betaLog.get(taskType).add(betaArray);
+			nrmseLog.get(taskType).add(nrmses.get(taskType));
+		}
+	}
+	
+	private static void exportLog() {
+		JsonObjectBuilder builder = Json.createObjectBuilder();
+		for (String taskType : nrmseLog.keySet()) {
+			ArrayList<Double> nrmseArray = nrmseLog.get(taskType);
+			ArrayList<ArrayList<Double>> betaArray = betaLog.get(taskType);
+			
+			double average = 0.0;
+			for (int i = 0; i < repeat; i++) average += nrmseArray.get(i);
+			average = average / repeat;
+			
+			double sigma = 0.0;
+			for (int i = 0; i < repeat; i++) {
+				double diff = nrmseArray.get(i) - average;
+				sigma += diff * diff;
+			}
+			sigma = Math.sqrt(sigma / repeat);
+			
+			JsonArrayBuilder betaBuilder = Json.createArrayBuilder(betaArray);			
+			JsonArrayBuilder nrmseBuilder = Json.createArrayBuilder(nrmseArray);			
+
+			JsonObjectBuilder taskBuilder = Json.createObjectBuilder();
+			taskBuilder.add("average", average);
+			taskBuilder.add("sigma", sigma);
+			taskBuilder.add("nrmse", nrmseBuilder);
+			taskBuilder.add("beta", betaBuilder);
+			builder.add(taskType, taskBuilder);
+		}
+
+		try {
+			FileWriter writer = new FileWriter(caseDir + "/log.json");
+			writer.write(builder.build().toString());
+			writer.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 }
