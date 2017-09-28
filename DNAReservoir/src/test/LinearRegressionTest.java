@@ -40,7 +40,9 @@ public class LinearRegressionTest {
 	    		zmn = Math.min(zmn, z[i]);
 	    }
 	    
-	    double nrmse = regression.calculateNRMSE();
-	    System.out.println(nrmse);
+	    double rss = regression.calculateResidualSumOfSquares();
+	    System.out.println(Math.sqrt(rss / z.length) / Math.abs(zmx - zmn));
+	    
+	    System.out.println(regression.calculateNRMSE());	    
 	}
 }
