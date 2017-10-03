@@ -172,14 +172,18 @@ public class SimulationManager {
 			}
 			sigma = Math.sqrt(sigma / repeat);
 			
-			JsonArrayBuilder betaBuilder = Json.createArrayBuilder(betaArray);			
-			JsonArrayBuilder nrmseBuilder = Json.createArrayBuilder(nrmseArray);			
+			JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+			for (int i = 0; i < repeat; i++) {
+				JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+				objectBuilder.add("nrmse", nrmseArray.get(i));
+				objectBuilder.add("beta", Json.createArrayBuilder(betaArray.get(i)));
+				arrayBuilder.add(objectBuilder);
+			}			
 
 			JsonObjectBuilder taskBuilder = Json.createObjectBuilder();
 			taskBuilder.add("average", average);
 			taskBuilder.add("sigma", sigma);
-			taskBuilder.add("nrmse", nrmseBuilder);
-			taskBuilder.add("beta", betaBuilder);
+			taskBuilder.add("log", arrayBuilder);
 			builder.add(taskType, taskBuilder);
 		}
 
