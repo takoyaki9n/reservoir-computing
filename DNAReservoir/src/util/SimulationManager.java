@@ -20,6 +20,7 @@ import input.Input;
 import model.Constants;
 import model.OligoSystem;
 import task.Task;
+import utils.CodeGenerator;
 
 public class SimulationManager {
 	public static JsonObject config;
@@ -28,6 +29,7 @@ public class SimulationManager {
 	
 	private static HashMap<String, ArrayList<ArrayList<Double>>> betaLog;
 	private static HashMap<String, ArrayList<Double>> nrmseLog;
+	private static String graphFileName;
 	
 	public static void loadConfig(String configFileName) {
 		File configFile = new File(configFileName);
@@ -46,14 +48,15 @@ public class SimulationManager {
 	
 	public static void run() {
 		MyOligoGraph graph = MyOligoGraph.generateGraph(config.getJsonObject("graph"));
-		graph.export(caseDir + "/" + config.getJsonObject("graph").getString("type") + ".graph");
+		graphFileName = caseDir + "/" + config.getJsonObject("graph").getString("type") + ".graph";
+		graph.export(graphFileName);
 		
 		initLogs();
 		
 		for (int r = 0; r < repeat; r++) {
 			System.out.println("repeat: " + r);			
-			HashMap<String, MyOLSMultipleLinearRegression> regressions = train(graph);
-			HashMap<String, Double> nrmses = test(graph, regressions);
+			HashMap<String, MyOLSMultipleLinearRegression> regressions = train();
+			HashMap<String, Double> nrmses = test(regressions);
 			updateLog(regressions, nrmses);
 		}
 		
@@ -72,11 +75,12 @@ public class SimulationManager {
 		}
 	}
 	
-	private static HashMap<String, MyOLSMultipleLinearRegression> train(MyOligoGraph graph) {
+	private static HashMap<String, MyOLSMultipleLinearRegression> train() {
 		HashMap<String, MyOLSMultipleLinearRegression> resressions = new HashMap<>();
 		
 		HashMap<String, Input> inputs = Input.generateInputMap(config.getJsonArray("inputs"));
 		HashMap<String, Task> tasks = Task.generateTaskMap(config.getJsonArray("tasks"), inputs);
+		MyOligoGraph graph = MyOligoGraph.open(graphFileName);
 		graph.attachInputs(config.getJsonObject("graph"), inputs);
 		
 		double[][] result = executeSimulation(graph);
@@ -123,11 +127,12 @@ public class SimulationManager {
 		}
 	}
 	
-	private static HashMap<String, Double> test(MyOligoGraph graph, HashMap<String, MyOLSMultipleLinearRegression> regressions) {
+	private static HashMap<String, Double> test(HashMap<String, MyOLSMultipleLinearRegression> regressions) {
 		HashMap<String, Double> nrmses = new HashMap<>();
 		
 		HashMap<String, Input> inputs = Input.generateInputMap(config.getJsonArray("inputs"));
 		HashMap<String, Task> tasks = Task.generateTaskMap(config.getJsonArray("tasks"), inputs);
+		MyOligoGraph graph = MyOligoGraph.open(graphFileName);
 		graph.attachInputs(config.getJsonObject("graph"), inputs);
 
 		double[][] result = executeSimulation(graph);
