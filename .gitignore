@@ -4,3 +4,4 @@ __pycache__
 old/
 old.zip
 cases/*
+tmp/
