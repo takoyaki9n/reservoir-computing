@@ -47,7 +47,7 @@ public class SimulationManager {
 	
 	public static void run() {
 		MyOligoGraph graph = MyOligoGraph.generateGraph(config.getJsonObject("graph"));
-		graphFileName = caseDir + "/" + config.getJsonObject("graph").getString("type") + ".graph";
+		graphFileName = caseDir + "/" + graph.id + ".graph";
 		graph.export(graphFileName);
 		
 		initLogs();

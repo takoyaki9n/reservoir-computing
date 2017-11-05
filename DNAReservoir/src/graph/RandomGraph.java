@@ -15,14 +15,13 @@ public class RandomGraph extends MyOligoGraph {
 	private int nS, nI, mS, mI;
 	
 	static final private double maxInitSignalCons = 0.5;
-
-	public RandomGraph(int nS, int nI, int mS, int mI) {
-		this.nS = nS; this.nI = nI;
-		this.mS = mS; this.mI = mI;
-	}
 	
 	public RandomGraph(JsonObject config) {
-		this(config.getInt("nS"), config.getInt("nI"), config.getInt("mS"), config.getInt("mI"));
+		super(config);
+
+		this.nS = config.getInt("nS"); this.nI = config.getInt("nI");
+		this.mS = config.getInt("mS"); this.mI = config.getInt("mI");
+		
 		buildGraph();
 	}
 	

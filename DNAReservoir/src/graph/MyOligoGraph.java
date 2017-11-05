@@ -1,6 +1,5 @@
 package graph;
 
-import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,7 +15,6 @@ import javax.json.JsonObject;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 
-import edu.uci.ics.jung.algorithms.layout.Layout;
 import input.Input;
 import model.Constants;
 import model.OligoGraph;
@@ -31,10 +29,18 @@ import utils.SequenceVertexComparator;
 import utils.VertexFactory;
 
 public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
-
+	public String id;
+	
 	private static final long serialVersionUID = -3549974446236175546L;
+	
+	public MyOligoGraph(JsonObject config) {
+		this(config.getString("id"));
+	}
 
-	public MyOligoGraph() {
+
+	public MyOligoGraph(String id) {
+		this.id = id;
+
 	    this.initFactories(new VertexFactory<SequenceVertex>(this){
 	    	
 			public SequenceVertex create() {
@@ -89,12 +95,14 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static MyOligoGraph open(String file){
-		MyOligoGraph graph = new MyOligoGraph();
+	public static MyOligoGraph open(String path){
+		String file = new File(path).getName();
+		String graphId = file.substring(0, file.lastIndexOf("."));
+		MyOligoGraph graph = new MyOligoGraph(graphId);
 		SequenceVertex newv;
 		String newEdge;
 		try {
-			FileReader in = new FileReader(file);
+			FileReader in = new FileReader(path);
 			BufferedReader reader = new BufferedReader(in);
 			String line = null;
 			line = reader.readLine();

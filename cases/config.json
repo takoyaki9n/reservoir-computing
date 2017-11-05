@@ -14,6 +14,7 @@
         {"id": "A", "type": "A", "input": "random1"}, {"id": "B25", "type": "B", "interval": 25, "input":"random1"}
     ],
     "graph": {
+        "id": "rnd5",
         "type": "random",
         "nS": 5, "nI": 5, "mS": 5, "mI": 5,
         "inputs": [{"input_id": "random1", "vertex_id": 1}]

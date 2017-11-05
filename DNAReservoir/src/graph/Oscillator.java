@@ -11,12 +11,11 @@ public class Oscillator extends MyOligoGraph {
 
 	private int n;
 	
-	public Oscillator(int n) {
-		this.n = n;
-	}
-	
 	public Oscillator(JsonObject config) {
-		this(config.getInt("n"));
+		super(config);
+		
+		this.n = config.getInt("n");
+		
 		buildGraph();
 	}
 	
