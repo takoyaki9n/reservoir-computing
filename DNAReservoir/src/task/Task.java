@@ -50,6 +50,8 @@ public class Task {
 			task = new TaskA(taskConfig, inputs);
 		} else if (type.equals("B")) {
 			task = new TaskB(taskConfig, inputs);
+		} else if (type.equals("NARMA2")) {
+			task = new TaskNARMA2(taskConfig, inputs);
 		}
 		
 		task.export(SimulationManager.caseDir + "/task_" + task.id + ".dat");
