@@ -11,11 +11,13 @@ import input.Input;
 import util.SimulationManager;
 
 public class Task {
+	public String id;
 	public int start, end, length;
 	
 	protected double[] data;
 	
-	public Task() {
+	public Task(JsonObject config) {
+		id = config.getString("id");
 	}
 	
 	public double get(int i) { return data[i]; }
@@ -50,7 +52,7 @@ public class Task {
 			task = new TaskB(taskConfig, inputs);
 		}
 		
-		task.export(SimulationManager.caseDir + "/task_" + type + ".dat");
+		task.export(SimulationManager.caseDir + "/task_" + task.id + ".dat");
 		
 		return task;
 	}
@@ -59,7 +61,7 @@ public class Task {
 		HashMap<String, Task> tasks = new HashMap<>();
 		for (int i = 0; i < tasksConfig.size(); i++) {
 			JsonObject taskConfig = tasksConfig.getJsonObject(i);
-			tasks.put(taskConfig.getString("type"), generateTask(taskConfig, inputs));
+			tasks.put(taskConfig.getString("id"), generateTask(taskConfig, inputs));
 		}
 		return tasks;
 	}

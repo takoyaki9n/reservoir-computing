@@ -20,7 +20,6 @@ import input.Input;
 import model.Constants;
 import model.OligoSystem;
 import task.Task;
-import utils.CodeGenerator;
 
 public class SimulationManager {
 	public static JsonObject config;
@@ -69,9 +68,9 @@ public class SimulationManager {
 				
 		JsonArray tasksConfig = config.getJsonArray("tasks");
 		for (int i = 0; i < tasksConfig.size(); i++) {
-			String taskType = tasksConfig.getJsonObject(i).getString("type");
-			betaLog.put(taskType, new ArrayList<ArrayList<Double>>(repeat));
-			nrmseLog.put(taskType, new ArrayList<Double>(repeat));
+			String taskId = tasksConfig.getJsonObject(i).getString("id");
+			betaLog.put(taskId, new ArrayList<ArrayList<Double>>(repeat));
+			nrmseLog.put(taskId, new ArrayList<Double>(repeat));
 		}
 	}
 	
@@ -84,8 +83,8 @@ public class SimulationManager {
 		graph.attachInputs(config.getJsonObject("graph"), inputs);
 		
 		double[][] result = executeSimulation(graph);
-		for (String taskType : tasks.keySet()) {
-			Task task = tasks.get(taskType);
+		for (String taskId : tasks.keySet()) {
+			Task task = tasks.get(taskId);
 			double[][] resultTrimed = Arrays.copyOfRange(result, task.start, task.end);
 			double[] taskTrinmed = Arrays.copyOfRange(task.getData(), task.start, task.end);
 			
@@ -93,7 +92,7 @@ public class SimulationManager {
 			regression.setNoIntercept(true);
 			regression.newSampleData(taskTrinmed, resultTrimed);
 
-			resressions.put(taskType, regression);
+			resressions.put(taskId, regression);
 		}
 		
 		return resressions;
@@ -136,14 +135,14 @@ public class SimulationManager {
 		graph.attachInputs(config.getJsonObject("graph"), inputs);
 
 		double[][] result = executeSimulation(graph);
-		for (String taskType : tasks.keySet()) {
-			Task task = tasks.get(taskType);
+		for (String taskId : tasks.keySet()) {
+			Task task = tasks.get(taskId);
 			double[][] resultTrimed = Arrays.copyOfRange(result, task.start, task.end);
 			double[] taskTrinmed = Arrays.copyOfRange(task.getData(), task.start, task.end);
 			
-			MyOLSMultipleLinearRegression regression = regressions.get(taskType);
+			MyOLSMultipleLinearRegression regression = regressions.get(taskId);
 			
-			nrmses.put(taskType, regression.calculateNRMSE(taskTrinmed, resultTrimed));
+			nrmses.put(taskId, regression.calculateNRMSE(taskTrinmed, resultTrimed));
 		}
 
 		return nrmses;

@@ -9,8 +9,10 @@ import input.Input;
 public class TaskA extends Task {
 	protected Input input;
 
-	public TaskA(JsonObject taskConfig, HashMap<String, Input> inputs) {
-		input = inputs.get(taskConfig.getString("input"));
+	public TaskA(JsonObject config, HashMap<String, Input> inputs) {
+		super(config);
+		
+		input = inputs.get(config.getString("input"));
 		
 		start = input.start + 2;
 		end = input.end;

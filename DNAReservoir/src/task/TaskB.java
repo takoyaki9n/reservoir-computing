@@ -11,10 +11,12 @@ public class TaskB extends Task {
 
 	private int interval;
 
-	public TaskB(JsonObject taskConfig, HashMap<String, Input> inputs) {
-		input = inputs.get(taskConfig.getString("input"));
+	public TaskB(JsonObject config, HashMap<String, Input> inputs) {
+		super(config);
 		
-		interval = taskConfig.getInt("interval");
+		input = inputs.get(config.getString("input"));
+		
+		interval = config.getInt("interval");
 		start = (int) (input.start + interval * 1.5);
 		end = input.end;
 		length = input.length;

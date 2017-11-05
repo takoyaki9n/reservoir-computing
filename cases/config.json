@@ -11,7 +11,7 @@
         "max" : 0.25,
     },
     "tasks": [
-        {"type": "A", "input": "random1"}, {"type": "B", "interval": 5, "input":"random1"}
+        {"id": "A", "type": "A", "input": "random1"}, {"id": "B25", "type": "B", "interval": 25, "input":"random1"}
     ],
     "graph": {
         "type": "random",

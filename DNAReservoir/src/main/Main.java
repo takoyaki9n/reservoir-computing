@@ -27,5 +27,7 @@ public class Main {
 		System.out.println(SimulationManager.config);
 		
 		SimulationManager.run();
+		
+		System.out.println("Done.");
 	}
 }
