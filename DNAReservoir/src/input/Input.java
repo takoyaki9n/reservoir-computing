@@ -56,7 +56,9 @@ public class Input {
 		
 		Input input = null;
 		if (type.equals("random")) {			
-			input =new RandomInput(inputConfig);
+			input = new RandomInput(inputConfig);
+		} else if (type.equals("sinusoidal")) {			
+			input = new SinusoidalInput(inputConfig);
 		}
 		
 		input.export(SimulationManager.caseDir + "/input_" + input.id + ".dat");
