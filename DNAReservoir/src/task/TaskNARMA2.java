@@ -33,10 +33,10 @@ public class TaskNARMA2 extends Task {
 		for (int t = 0; t < length; t++) {
 			double v = 0.0;
 			if (start <= t && t < end) {
-				v = alpha * data[t - 1];
-				v += beta * data[t - 1] * data[t - 2];
-				v += gamma * input.get(t - 1) * input.get(t - 1) * input.get(t - 1); 
-				v += delta;
+				v = alpha * data[t - 1]
+				 	+ beta * data[t - 1] * data[t - 2]
+					+ gamma * input.get(t - 1) * input.get(t - 1) * input.get(t - 1)
+					+ delta;
 			}
 			data[t] = v;
 		}		
