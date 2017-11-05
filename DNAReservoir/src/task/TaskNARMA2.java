@@ -16,14 +16,14 @@ public class TaskNARMA2 extends Task {
 		
 		input = inputs.get(config.getString("input"));
 		
-		start = input.start + 2;
-		end = input.end;
-		length = input.length;
-		
 		alpha = config.getJsonNumber("alpha").doubleValue();
 		beta = config.getJsonNumber("beta").doubleValue();
 		gamma = config.getJsonNumber("gamma").doubleValue();
 		delta = config.getJsonNumber("delta").doubleValue();
+		
+		start = input.start + 2;
+		end = input.end;
+		length = input.length;
 		
 		initializeData();
 	}
