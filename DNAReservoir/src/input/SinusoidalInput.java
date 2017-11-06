@@ -1,7 +1,5 @@
 package input;
 
-import java.util.Random;
-
 import javax.json.JsonObject;
 
 /*
@@ -27,9 +25,9 @@ public class SinusoidalInput extends Input {
 			double v = 0.0;
 			if (start <= t && t < end) {
 				v = A * (1.0
-						- Math.cos(2.0 * Math.PI * f1 * t / T)
-						* Math.cos(2.0 * Math.PI * f2 * t / T)
-						* Math.cos(2.0 * Math.PI * f3 * t / T));
+						+ Math.sin(2.0 * Math.PI * f1 * t / T)
+						* Math.sin(2.0 * Math.PI * f2 * t / T)
+						* Math.sin(2.0 * Math.PI * f3 * t / T));
 			}
 			data[t] = v;
 		}		
