@@ -3,10 +3,11 @@ package test;
 import graph.MyOligoGraph;
 import graph.RandomGraph;
 import model.OligoSystem;
+import util.SimulationManager;
 
 public class GraphTest {
 	public static void run() {
-		MyOligoGraph graph = new RandomGraph(5, 5, 5, 5);
+		MyOligoGraph graph = MyOligoGraph.generateGraph(SimulationManager.config.getJsonObject("graph"));
 		System.out.println(graph);
 		System.out.println(graph.getVertexByID(1));
 		
