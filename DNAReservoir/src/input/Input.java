@@ -14,7 +14,6 @@ public class Input {
 	
 	public File file;
 	
-	//TOTO: to double[]
 	protected double[] data;
 
 	public Input(JsonObject config) {
