@@ -2,3 +2,6 @@
 	path = daccad
 	url = git@bitbucket.org:AubertKato/daccad.git
 	ignore = dirty
+[submodule "bioneat"]
+	path = bioneat
+	url = git@bitbucket.org:AubertKato/bioneat.git
