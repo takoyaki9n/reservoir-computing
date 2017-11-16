@@ -8,8 +8,6 @@ import java.util.HashMap;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
-import util.SimulationManager;
-
 public class Input {
 	public String id;
 	public int start, end, length;
@@ -22,10 +20,9 @@ public class Input {
 	public Input(JsonObject config) {
 		id = config.getString("id");
 		start = config.getInt("start");
-		end = config.containsKey("end")? config.getInt("end"): SimulationManager.simulationTime;
+		end = config.getInt("end");
 		
-		length = Math.max(end, SimulationManager.simulationTime);
-		data = new double[length];
+		data = new double[end];
 	}
 	
 	public double get(int i) { return data[i]; }
@@ -60,8 +57,6 @@ public class Input {
 		} else if (type.equals("sinusoidal")) {			
 			input = new SinusoidalInput(inputConfig);
 		}
-		
-		input.export(SimulationManager.caseDir + "/input_" + input.id + ".dat");
 
 		return input;
 	}

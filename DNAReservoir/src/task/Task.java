@@ -8,7 +8,6 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 
 import input.Input;
-import util.SimulationManager;
 
 public class Task {
 	public String id;
@@ -55,8 +54,6 @@ public class Task {
 		} else if (type.equals("NARMAn")) {
 			task = new TaskNARMAn(taskConfig, inputs);
 		}
-		
-		task.export(SimulationManager.caseDir + "/task_" + task.id + ".dat");
 		
 		return task;
 	}
