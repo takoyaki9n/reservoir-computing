@@ -41,7 +41,7 @@ public class Task {
 		}
 	}
 
-	static private Task generateTask(JsonObject taskConfig, HashMap<String, Input> inputs) {
+	static public Task generateTask(JsonObject taskConfig, HashMap<String, Input> inputs) {
 		String type = taskConfig.getString("type");
 		
 		Task task = null;

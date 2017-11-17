@@ -47,7 +47,7 @@ public class Input {
 		}
 	}
 	
-	static private Input generateInput(JsonObject inputConfig) {
+	static public Input generateInput(JsonObject inputConfig) {
 		String type = inputConfig.getString("type");
 		
 		Input input = null;
