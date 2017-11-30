@@ -28,6 +28,7 @@ public class RunReservoir {
 			Constants.numberOfPoints = config.getInt("simulation_time");
 			erne.Constants.maxEvalTime = config.getInt("simulation_time");
 			erne.Constants.maxEvalClockTime = -1;
+			erne.Constants.stabilityCheck = false;
 	        
 			ReservoirFitnessFunction fitnessFunction = new ReservoirFitnessFunction(config.toString());
 
