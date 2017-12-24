@@ -22,12 +22,13 @@ public class ReservoirFitnessDisplayer implements FitnessDisplayer {
 	public JPanel drawVisualization(AbstractFitnessResult fitness) {
 		ReservoirFitnessResult fitnessResult = (ReservoirFitnessResult) fitness;
 		if (fitnessResult.getFitness() != 0.0) {
-			Map<String, double[]> timeSeries = new HashMap<String, double[]>();
-			timeSeries.put("Fitted", fitnessResult.actualOutput);
-			timeSeries.put("Target", fitnessResult.targetOutput);
-			double[] xData = new double[fitnessResult.actualOutput.length];
+			double[] xData = new double[fitnessResult.timeSeries.get("a").length];
+//			Map<String, double[]> timeSeries = new HashMap<String, double[]>();
+//			timeSeries.put("Fitted", fitnessResult.actualOutput);
+//			timeSeries.put("Target", fitnessResult.targetOutput);
+//			double[] xData = new double[fitnessResult.actualOutput.length];
 			for (int k = 0; k < xData.length; k++) xData[k] = k;
-			return new PlotFactory().createTimeSeriesPanel(timeSeries, xData, false, "Time [min]", "");
+			return new PlotFactory().createTimeSeriesPanel(fitnessResult.timeSeries, xData, false, "Time [min]", "");
 		}
 		return new JPanel();		
 	}

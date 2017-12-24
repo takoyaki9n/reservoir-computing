@@ -1,5 +1,7 @@
 package evo;
 
+import java.util.Map;
+
 import erne.AbstractFitnessResult;
 
 public class ReservoirFitnessResult extends AbstractFitnessResult {
@@ -9,6 +11,7 @@ public class ReservoirFitnessResult extends AbstractFitnessResult {
 	private double fitness = 0.0;
 	public boolean minFitness = false;
 
+	public Map<String, double[]> timeSeries;
 	public double[] targetOutput;
 	public double[] actualOutput;
 
@@ -16,7 +19,8 @@ public class ReservoirFitnessResult extends AbstractFitnessResult {
 		this.minFitness = minFitness;
 	}
 	
-	public ReservoirFitnessResult(double[] targetOutput, double[] actualOutput) {
+	public ReservoirFitnessResult(Map<String, double[]> timeSeries, double[] targetOutput, double[] actualOutput) {
+		this.timeSeries = timeSeries;
 		this.targetOutput = targetOutput;
 		this.actualOutput = actualOutput;
 		this.fitness = calculateFitness();

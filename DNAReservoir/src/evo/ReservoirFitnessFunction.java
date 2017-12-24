@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.json.Json;
@@ -28,6 +29,7 @@ public class ReservoirFitnessFunction extends AbstractFitnessFunction {
 
 	private static final long serialVersionUID = 1L;
 	private String inputNodeName = "a";
+	private double eps = 1.0e-8;
 	
 	private String configString;
 	private ArrayList<String> names;
@@ -40,6 +42,8 @@ public class ReservoirFitnessFunction extends AbstractFitnessFunction {
 	public AbstractFitnessResult evaluate(ReactionNetwork network) {
 		try {
 			for (Node node : network.nodes) {
+				node.protectedSequence = false;
+				node.reporter = false;
 				if (node.type == Node.INHIBITING_SEQUENCE) {
 					Node from ;
 					Node to;
@@ -79,6 +83,7 @@ public class ReservoirFitnessFunction extends AbstractFitnessFunction {
 		Task task = Task.generateTask(config.getJsonObject("task"), inputs);
 		
 		Map<String, double[]> timeSeries = oligoSystem.calculateTimeSeries(erne.Constants.maxEvalClockTime);
+		addPerturbation(timeSeries);
 		names = new ArrayList<>(timeSeries.keySet());
 		
 		double[][] result = trimTimeSeries(timeSeries, names, task);				
@@ -105,7 +110,7 @@ public class ReservoirFitnessFunction extends AbstractFitnessFunction {
 		
 		double[] estimated = regression.calculateEstimatedValues(result);
 		
-		return new ReservoirFitnessResult(taskData, estimated);
+		return new ReservoirFitnessResult(timeSeries, taskData, estimated);
 	}
 	
 	private double[][] trimTimeSeries(Map<String, double[]> timeSeries, ArrayList<String> names, Task task) {
@@ -128,6 +133,21 @@ public class ReservoirFitnessFunction extends AbstractFitnessFunction {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	private void addPerturbation(Map<String, double[]> timeSeries) {
+		for (String name : timeSeries.keySet()) {
+			double max = 0.0;
+			double[] data = timeSeries.get(name);
+			for (int i = 0; i < data.length; i++) 
+				max = Math.max(max, data[i]);
+			max = (max == 0)? eps: max * eps;
+			
+			for (int i = 0; i < data.length; i++) {
+				double rnd = Math.random();
+				data[i] += (2 * rnd - 1) * max;
+			}
 		}
 	}
 
