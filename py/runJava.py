@@ -4,7 +4,7 @@ import os
 from config import *
 
 if __name__ == "__main__":
-    f = open(casesDir + "/osc3_10_01/config.json")
+    f = open(casesDir + "/osc3_10_0/config.json")
     template = json.load(f)
     f.close()
     for mx in maxs:
