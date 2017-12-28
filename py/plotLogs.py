@@ -1,16 +1,9 @@
 import json
-from os.path import abspath, dirname
+import os
+
+from config import *
 
 if __name__ == "__main__":
-    baseDir = dirname(dirname(abspath(__file__)))
-    casesDir = baseDir + "/cases"
-    tmpDir = baseDir + "/tmp"
-
-    pref = "osc3"
-    taus = ["10", "25", "50", "100"]
-    maxs = ["01", "025", "05", "1"]
-    maxVals = {"01": 0.1, "025": 0.25, "05": 0.5, "1": 1.0}
-
     rowsA =[]
     rowsB = []
     for mx in maxs:
@@ -26,6 +19,14 @@ if __name__ == "__main__":
             rowB += [params["TaskB10"]["average"], params["TaskB10"]["sigma"]]
         rowsA.append([str(x) for x in rowA])
         rowsB.append([str(x) for x in rowB])
-    print("\n".join(["\t".join(r) for r in rowsA]))
-    print("\n")
-    print("\n".join(["\t".join(r) for r in rowsB]))
+
+    f = open(tmpDir + "/logs.dat", "w")
+    f.write("\n".join(["\t".join(r) for r in rowsA]) + "\n")
+    f.write("\n\n")
+    f.write("\n".join(["\t".join(r) for r in rowsB]) + "\n")
+    f.close()
+
+    cmd = "gnuplot -e \"dir='%s'\" %s/plt/logs.plt " % (tmpDir, baseDir)
+    print(cmd)
+    os.system(cmd)
+
