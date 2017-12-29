@@ -1,6 +1,6 @@
 set title "tau = ".tau." [min], S = ".S." [nM/min]"
 set xlabel "time [min]"
-set ylabel "concentration [nM/L]"
+set ylabel "concentration [nM]"
 
 set xrange [1000:3000]
 set yrange [0:20]
