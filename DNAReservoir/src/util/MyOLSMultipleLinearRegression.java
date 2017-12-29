@@ -6,7 +6,7 @@ import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
 
 public class MyOLSMultipleLinearRegression extends OLSMultipleLinearRegression {
-	private RealVector beta = null;
+	protected RealVector beta = null;
 
 	public MyOLSMultipleLinearRegression() { }
 
