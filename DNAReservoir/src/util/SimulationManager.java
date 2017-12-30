@@ -88,7 +88,12 @@ public class SimulationManager {
 			double[][] resultTrimed = Arrays.copyOfRange(result, task.start, task.end);
 			double[] taskTrinmed = Arrays.copyOfRange(task.getData(), task.start, task.end);
 
-			MyOLSMultipleLinearRegression regression = new MyOLSMultipleLinearRegression();
+			MyOLSMultipleLinearRegression regression;
+			if (config.containsKey("non_negative") && config.getBoolean("non_negative")) {
+				regression = new MyOLSMultipleNonNegativeLinearRegression();
+			} else {
+				regression = new MyOLSMultipleLinearRegression();
+			}
 			regression.setNoIntercept(true);
 			regression.newSampleData(taskTrinmed, resultTrimed);
 
