@@ -16,10 +16,10 @@ public class NonNegativeLinearRegressionTest {
 		x[3] = new double[] { 0.6344, 0.6170 };
 		test(x, y, true);
 		
-		int n = 4, m = 10;
+		int n = 10, m = 3000;
+		// all positive, noise
 		double[] b = new double[n];
-		for (int i = 0; i < n; i++) b[i] = Math.random() * 100.0;
-		
+		for (int i = 0; i < n; i++) b[i] = Math.random() * 100.0;		
 		y = new double[m];
 		x = new double[m][];
 		for (int i = 0; i < m; i++) {
@@ -29,16 +29,16 @@ public class NonNegativeLinearRegressionTest {
 				x[i][j] = (2.0 * Math.random() - 1.0) * 100.0;
 				y[i] += x[i][j] * b[j + 1];
 			}
-//			y[i] *= 1.0 + (2.0 * Math.random() - 1.0) * 1.0e-3;
+			y[i] *= 1.0 + (2.0 * Math.random() - 1.0) * 0.5;
 		}
-		System.out.println("\ntrue beta");
+		System.out.println("\ntrue beta1");
 		for (double p : b) System.out.println(p);
 		test(x, y, false);
 		
+		// single negative, no noise
 		b = new double[n];
 		for (int i = 0; i < n - 1; i++) b[i] = Math.random() * 100.0;
 		b[n - 1] = -Math.random() * 5.0;
-				
 		y = new double[m];
 		x = new double[m][];
 		for (int i = 0; i < m; i++) {
@@ -50,8 +50,41 @@ public class NonNegativeLinearRegressionTest {
 			}
 //			y[i] *= 1.0 + (2.0 * Math.random() - 1.0) * 1.0e-3;
 		}
-		System.out.println("\ntrue beta");
+		System.out.println("\ntrue beta2");
 		for (double p : b) System.out.println(p);
+		test(x, y, false);
+		
+		// random beta, no noise
+		b = new double[n];
+		for (int i = 0; i < n; i++) b[i] = Math.random() * 200.0 - 100.0;
+		y = new double[m];
+		x = new double[m][];
+		for (int i = 0; i < m; i++) {
+			x[i] = new double[n - 1];
+			y[i] = b[0];
+			for (int j = 0; j < n - 1; j++) {
+				x[i][j] = (2.0 * Math.random() - 1.0) * 100.0;
+				y[i] += x[i][j] * b[j + 1];
+			}
+//			y[i] *= 1.0 + (2.0 * Math.random() - 1.0) * 1.0e-3;
+		}
+		System.out.println("\ntrue beta3");
+		for (double p : b) System.out.println(p);
+		test(x, y, false);
+		
+		// random x y
+		y = new double[m];
+		x = new double[m][];
+		for (int i = 0; i < m; i++) {
+			x[i] = new double[n - 1];
+			y[i] = b[0];
+			for (int j = 0; j < n - 1; j++) {
+				x[i][j] = (2.0 * Math.random() - 1.0) * 100.0;
+				y[i] += (2.0 * Math.random() - 1.0) * 100.0;
+			}
+//			y[i] *= 1.0 + (2.0 * Math.random() - 1.0) * 1.0e-3;
+		}
+		System.out.println();
 		test(x, y, false);
 	}
 	
@@ -65,8 +98,8 @@ public class NonNegativeLinearRegressionTest {
 		for (double p : beta) System.out.println(p);
 		
 		double[] z = regression.calculateEstimatedValues();
-		System.out.println("y z");
-		for (int i = 0; i < y.length; i++) System.out.println(y[i] + " " + z[i]);
+//		System.out.println("y z");
+//		for (int i = 0; i < y.length; i++) System.out.println(y[i] + " " + z[i]);
 		System.out.println("NRMSE \n" + regression.calculateNRMSE());
 	}
 }

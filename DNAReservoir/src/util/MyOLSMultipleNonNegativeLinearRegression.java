@@ -23,17 +23,15 @@ public class MyOLSMultipleNonNegativeLinearRegression extends MyOLSMultipleLinea
 	}
 	
 	private RealVector NonNegativeLeastSquares() {
-		double eps = 5.0e-8;
+		double eps = 5.0e-5;
 		
-		double[][] X = getX().getData();
-		double[] y = getY().toArray();
+		RealMatrix X = getX();
+		RealVector y = getY();
 		
 		int n = getX().getColumnDimension();
 		
-		double[] beta = new double[n];
-		for (int i = 0; i < beta.length; i++) beta[i] = 0.0;
-		double[] w = new double[n];
-		updateW(w, X, y, beta);
+		RealVector beta = new ArrayRealVector(n, 0.0);
+		RealVector w = X.transpose().operate(y.subtract(X.operate(beta)));
 		
 		BitSet r = new BitSet(n);
 		r.clear(); r.flip(0, n);
@@ -41,81 +39,56 @@ public class MyOLSMultipleNonNegativeLinearRegression extends MyOLSMultipleLinea
 		while (true) {
 			if (r.isEmpty()) break;
 			int jw = 0;
-			for (int j = 0; j < w.length; j++) 
-				if (w[jw] < w[j]) jw = j;
-			if (w[jw] < eps) break;
+			for (int j = 0; j < w.getDimension(); j++) 
+				if (w.getEntry(jw) < w.getEntry(j)) jw = j;
+			if (w.getEntry(jw) < eps) break;
 			
 			r.set(jw, false);
-			double[] s = new double[n];
-			updateS(s, X, y, r);
+			
+			RealVector s =  updateS(X, y, r);
 			while (true) {
 				int[] jps = getJps(r, n);
 				
-				double smn = s[jps[0]];
-				for (int k = 0; k < jps.length; k++) smn = Math.min(smn, s[jps[k]]);
+				double smn = s.getEntry(jps[0]);
+				for (int k = 0; k < jps.length; k++) smn = Math.min(smn, s.getEntry(jps[k]));
 				if (smn > 0) break;
 				
-				int jp = jps[0];
-				double alpha = beta[jp] / (beta[jp] - s[jp]);
-				for (int k = 0; k < jps.length; k++) {
-					jp = jps[k];
-					alpha = Math.min(alpha, beta[jp] / (beta[jp] - s[jp]));
-				}
+				double alpha = getAlpha(beta, s, jps[0]);
+				for (int k = 0; k < jps.length; k++) alpha = Math.min(alpha, getAlpha(beta, s, jps[k]));				
 				
-				for (int j = 0; j < n; j++) beta[j] += alpha * (s[j] - beta[j]);
+				beta = s.subtract(beta).mapMultiply(alpha);
 				
-				for (int k = 0; k < jps.length; k++) {
-					jp = jps[k];
-					if (beta[jp] == 0.0) r.set(jp);
-				}
+				for (int k = 0; k < jps.length; k++) 
+					if (beta.getEntry(jps[k]) == 0.0) r.set(jps[k]);
 				
-				updateS(s, X, y, r);
+				s = updateS(X, y, r);
 			}
 			
-			for (int j = 0; j < n; j++) beta[j] = s[j];
-			updateW(w, X, y, beta);
+			beta = s.copy();
+			w = X.transpose().operate(y.subtract(X.operate(beta)));
 		}
 		
 		return new ArrayRealVector(beta);
 	}
 	
-	private void updateW(double[] w, double[][] X, double[] y, double[] beta) {
-		int m = y.length;
-		int n = w.length;
-		
-		double[] yXb = new double[m];
-		for (int i = 0; i < m; i++) {
-			yXb[i] = y[i];
-			for (int j = 0; j < n; j++) yXb[i] -= X[i][j] * beta[j];
-		}
-		
-		for (int j = 0; j < n; j++) {
-			w[j] = 0.0;
-			for (int i = 0; i < m; i++) w[j] += X[i][j] * yXb[i];
-		}
-	}
-	
-	private void updateS(double[] s, double[][] X, double[] y, BitSet r) {
-		int m = y.length;
-		int n = s.length;
+	private RealVector updateS(RealMatrix X, RealVector y, BitSet r) {
+		int m = X.getRowDimension();
+		int n = X.getColumnDimension();
+		int np = n - r.cardinality();
 		int[] jps = getJps(r, n);
 		
-		double[][] XpArray = new double[m][];
-		for (int i = 0; i < m; i++) {
-			XpArray[i] = new double[n - r.cardinality()];
-			for (int k = 0; k < jps.length; k++) XpArray[i][k] = X[i][jps[k]];
-		}
-		RealMatrix Xp = new Array2DRowRealMatrix(XpArray);
+		RealMatrix Xp = new Array2DRowRealMatrix(m, np);
+		for (int i = 0; i < m; i++) 
+			for (int k = 0; k < jps.length; k++) 
+				Xp.setEntry(i, k, X.getEntry(i, jps[k]));
 		
 		RealMatrix tXpXp = Xp.transpose().multiply(Xp);
 		RealMatrix itXpXp = new LUDecomposition(tXpXp).getSolver().getInverse();
-		RealMatrix Z = itXpXp.multiply(Xp.transpose());
+		RealVector sp = itXpXp.multiply(Xp.transpose()).operate(y);
 		
-		for (int j = 0; j < n; j++) s[j] = 0.0;
-		for (int k = 0; k < jps.length; k++) {
-			s[jps[k]] = 0.0;
-			for (int i = 0; i < m; i++) s[jps[k]] += Z.getEntry(k, i) * y[i];			
-		}
+		RealVector s = new ArrayRealVector(n, 0.0);
+		for (int k = 0; k < jps.length; k++) s.setEntry(jps[k], sp.getEntry(k));
+		return s;
 	}
 	
 	private int[] getJps(BitSet r, int n) {
@@ -124,5 +97,9 @@ public class MyOLSMultipleNonNegativeLinearRegression extends MyOLSMultipleLinea
 		for (int j = 0; j < n; j++) 
 			if (!r.get(j)) jps[k++] = j;
 		return jps;
+	}
+	
+	private double getAlpha(RealVector beta, RealVector s, int jp) {
+		return beta.getEntry(jp) / (beta.getEntry(jp) - s.getEntry(jp));
 	}
 }
