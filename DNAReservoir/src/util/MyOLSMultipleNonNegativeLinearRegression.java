@@ -38,7 +38,6 @@ public class MyOLSMultipleNonNegativeLinearRegression extends MyOLSMultipleLinea
 		BitSet r = new BitSet(n);
 		r.clear(); r.flip(0, n);
 		
-		double wmxp = -1.0;
 		while (true) {
 			if (r.isEmpty()) break;
 			int jw = 0;
@@ -46,26 +45,15 @@ public class MyOLSMultipleNonNegativeLinearRegression extends MyOLSMultipleLinea
 				if (w.getEntry(jw) < w.getEntry(j)) jw = j;
 			double wmx = w.getEntry(jw);
 			if (wmx <= eps) break;
-			if (Math.abs(wmx - wmxp) <= eps * 1.0e-3) {
-				System.err.println("w_max does not converge: " + wmx);
-				break;
-			}
-			wmxp = wmx;
 			p.set(jw); r.set(jw, false);
 			
 			RealVector s =  updateS(X, y, p);
-			double smnp = 1.0;
 			while (true) {
 				int[] jps = getJps(p, n);
 				
 				double smn = s.getEntry(jps[0]);
 				for (int k = 0; k < jps.length; k++) smn = Math.min(smn, s.getEntry(jps[k]));
 				if (smn > 0) break;
-				if (Math.abs(smn - smnp) <= eps * 1.0e-3) {
-					System.err.println("s_min does not converge: " + smn);
-					break;
-				}
-				smnp = smn;
 				
 				double alpha = getAlpha(beta, s, jps[0]);
 				for (int k = 0; k < jps.length; k++) alpha = Math.min(alpha, getAlpha(beta, s, jps[k]));
