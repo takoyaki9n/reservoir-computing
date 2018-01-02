@@ -90,7 +90,7 @@ public class SimulationManager {
 
 			MyOLSMultipleLinearRegression regression;
 			if (config.containsKey("non_negative") && config.getBoolean("non_negative")) {
-				regression = new MyOLSMultipleNonNegativeLinearRegression();
+				regression = new MyNNLS();
 			} else {
 				regression = new MyOLSMultipleLinearRegression();
 			}
