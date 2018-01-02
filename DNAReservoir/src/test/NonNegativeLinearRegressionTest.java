@@ -1,7 +1,5 @@
 package test;
 
-import org.apache.spark.mllib.optimization.NNLS;
-
 import util.MyOLSMultipleNonNegativeLinearRegression;
 
 public class NonNegativeLinearRegressionTest {
