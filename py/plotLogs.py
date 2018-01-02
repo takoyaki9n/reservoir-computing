@@ -10,7 +10,7 @@ if __name__ == "__main__":
         rowA = [maxVals[mx]]
         rowB = [maxVals[mx]]
         for tau in taus:
-            caseDir = casesDir + "/%s_%s_%s" % (pref, tau, mx)
+            caseDir = casesDir + "/%s/%s_%s" % (pref, tau, mx)
             logFile = caseDir + "/log.json"
             f = open(logFile)
             params = json.load(f)
@@ -20,13 +20,13 @@ if __name__ == "__main__":
         rowsA.append([str(x) for x in rowA])
         rowsB.append([str(x) for x in rowB])
 
-    f = open(tmpDir + "/logs.dat", "w")
+    f = open(casesDir + "/%s/logs.dat" % (pref), "w")
     f.write("\n".join(["\t".join(r) for r in rowsA]) + "\n")
     f.write("\n\n")
     f.write("\n".join(["\t".join(r) for r in rowsB]) + "\n")
     f.close()
 
-    cmd = "gnuplot -e \"dir='%s'\" %s/plt/logs.plt " % (tmpDir, baseDir)
+    cmd = "gnuplot -e \"dir='%s/%s'\" %s/plt/logs.plt " % (casesDir, pref, baseDir)
     print(cmd)
     os.system(cmd)
 
