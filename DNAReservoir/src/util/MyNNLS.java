@@ -26,7 +26,7 @@ public class MyNNLS extends MyOLSMultipleLinearRegression {
 		RealMatrix X = getX();
 		RealVector y = getY();
 		
-		int m = X.getRowDimension(), n = X.getColumnDimension();
+		int n = X.getColumnDimension();
 		
 		String code = "import numpy as np\n" + 
 				"from scipy.optimize import nnls\n" + 
