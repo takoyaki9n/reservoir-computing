@@ -17,37 +17,38 @@ public class PythonCallTest {
 
 	private static void test(double[][] X, double[] y, double[] b) {
 		double[] beta = CallScipyNNLS(X, y);
-		System.out.println("\ntrue beta\tbeta");
+		System.out.println("true beta\tbeta");
 		for (int i = 0; i < beta.length; i++)
 			System.out.println(b[i] + "\t" + beta[i]);
+		System.out.println();
 	}
 
 	private static double[] CallScipyNNLS(double[][] X, double[] y) {
-		String code = "import numpy as np\n"
-				+ "from scipy.optimize import nnls\n"
-				+ "import sys\n"
-				+ "f = open(sys.argv[1], 'r')\n" 
-				+ "m = int(f.readline())\n"
-				+ "A = np.array([[float(x) for x in f.readline().split(' ')] for _ in range(m)])\n"
-				+ "b = np.array([float(x) for x in f.readline().split(' ')])\n" + "f.close()\n"
-				+ "(x, rnorm) = nnls(A,b)\n" 
-				+ "print(' '.join([str(d) for d in x]))".replace('\n', ';');
-		ProcessBuilder builder = new ProcessBuilder("python", "-c", code, createTmpFile(X, y));
-		Process process;
+		String code = "import numpy as np\n" + 
+				"from scipy.optimize import nnls\n" + 
+				"import sys\n" + 
+				"f = open(sys.argv[1], 'r')\n" + 
+				"m = int(f.readline())\n" + 
+				"A = np.array([[float(x) for x in f.readline().rstrip().split(' ')] for _ in range(m)])\n" + 
+				"b = np.array([float(x) for x in f.readline().rstrip().split(' ')])\n" + 
+				"f.close()\n" + 
+				"(x, rnorm) = nnls(A,b)\n" + 
+				"print('\\n'.join([str(d) for d in x]))";
+		code = code.replace('\n', ';');
+		
 		try {
-			process = builder.start();
+			ProcessBuilder builder = new ProcessBuilder("python", "-c", code, createTmpFile(X, y));
+			Process process = builder.start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			BufferedReader ereader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-
 			process.waitFor();
 
 			for (String line = ereader.readLine(); line != null; line = ereader.readLine())
 				System.err.println(line);
 
-			String[] data = reader.readLine().split(" ");
-			double[] beta = new double[data.length];
+			double[] beta = new double[X[0].length];
 			for (int i = 0; i < beta.length; i++)
-				beta[i] = Double.parseDouble(data[i]);
+				beta[i] = Double.parseDouble(reader.readLine());
 
 			reader.close();
 			process.destroy();
@@ -69,13 +70,13 @@ public class PythonCallTest {
 			int n = X[0].length;
 			writer.write(X.length + "\n");
 			for (int i = 0; i < m; i++) {
-				for (int j = 0; j < n - 1; j++)
+				for (int j = 0; j < n; j++)
 					writer.write(X[i][j] + " ");
-				writer.write(X[i][n - 1] + "\n");
+				writer.write("\n");
 			}
-			for (int i = 0; i < m - 1; i++)
+			for (int i = 0; i < m; i++)
 				writer.write(y[i] + " ");
-			writer.write(y[m - 1] + "\n");
+			writer.write("\n");
 
 			writer.close();
 			return file.getPath();
