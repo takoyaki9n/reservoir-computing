@@ -365,6 +365,8 @@ public class MyOligoGraph extends OligoGraph<SequenceVertex, String> {
 			return new Oscillator(graphConfig);
 		} else if (type.equals("random")) {
 			return new RandomGraph(graphConfig);
+		} else if (type.equals("line")) {
+			return new LineGraph(graphConfig);
 		}
 		
 		return null;
