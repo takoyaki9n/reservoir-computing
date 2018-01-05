@@ -18,7 +18,7 @@ public class TaskController extends Task {
 		
 		start = input.start;
 		end = input.end;
-		length = input.length;
+		length = input.end;
 		
 		alpha = config.getJsonNumber("alpha").doubleValue();
 		tau = config.getInt("tau");

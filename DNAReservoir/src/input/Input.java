@@ -10,7 +10,7 @@ import javax.json.JsonObject;
 
 public class Input {
 	public String id;
-	public int start, end, length;
+	public int start, end;
 	
 	public File file;
 	
@@ -29,7 +29,7 @@ public class Input {
 	public double[] getData(){ return data; }
 	
 	public Double[] getDataAsDouble(){ 
-		Double[] array = new Double[length];
+		Double[] array = new Double[data.length];
 		for (int i = 0; i < array.length; i++) array[i] = new Double(data[i]);
 		return array; 
 	}
@@ -38,7 +38,7 @@ public class Input {
 		file = new File(fileName);
 		try {
 			FileWriter writer = new FileWriter(file);
-			for (int t = 0; t< length; t++) {
+			for (int t = 0; t< data.length; t++) {
 				writer.write(get(t) + "\n");
 			}
 			writer.close();

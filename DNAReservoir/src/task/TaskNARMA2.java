@@ -24,7 +24,7 @@ public class TaskNARMA2 extends Task {
 		
 		start = input.start + 2;
 		end = input.end;
-		length = input.length;
+		length = input.end;
 		
 		initializeData();
 	}

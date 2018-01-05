@@ -19,7 +19,7 @@ public class TaskB extends Task {
 		interval = config.getInt("interval");
 		start = (int) (input.start + interval * 1.5);
 		end = input.end;
-		length = input.length;
+		length = input.end;
 		
 		initializeData();
 	}
