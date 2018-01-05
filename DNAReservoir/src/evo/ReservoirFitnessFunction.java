@@ -23,6 +23,7 @@ import model.input.ExternalInput;
 import reactionnetwork.Node;
 import reactionnetwork.ReactionNetwork;
 import task.Task;
+import util.MyNNLS;
 import util.MyOLSMultipleLinearRegression;
 
 public class ReservoirFitnessFunction extends AbstractFitnessFunction {
@@ -83,13 +84,17 @@ public class ReservoirFitnessFunction extends AbstractFitnessFunction {
 		Task task = Task.generateTask(config.getJsonObject("task"), inputs);
 		
 		Map<String, double[]> timeSeries = oligoSystem.calculateTimeSeries(erne.Constants.maxEvalClockTime);
-		addPerturbation(timeSeries);
 		names = new ArrayList<>(timeSeries.keySet());
 		
 		double[][] result = trimTimeSeries(timeSeries, names, task);				
 		double[] taskData = Arrays.copyOfRange(task.getData(), task.start, task.end);
 		
-		MyOLSMultipleLinearRegression regression = new MyOLSMultipleLinearRegression();
+		MyOLSMultipleLinearRegression regression;
+		if (config.containsKey("non_negative") && config.getBoolean("non_negative")) {
+			regression = new MyNNLS();
+		} else {
+			regression = new MyOLSMultipleLinearRegression();
+		}
 		regression.setNoIntercept(true);
 		regression.newSampleData(taskData, result);
 		
@@ -117,8 +122,9 @@ public class ReservoirFitnessFunction extends AbstractFitnessFunction {
 		double[][] result = new double[task.end - task.start][];
 		for (int t = task.start; t < task.end; t++) {
 			int j = t - task.start;
-			result[j] = new double[timeSeries.size()];
-			for (int k = 0; k < names.size(); k++) result[j][k] = timeSeries.get(names.get(k))[t];
+			result[j] = new double[timeSeries.size() + 1];
+			result[j][0] = 1.0;
+			for (int k = 0; k < names.size(); k++) result[j][k + 1] = timeSeries.get(names.get(k))[t];
 		}
 		return result;
 	}
@@ -131,23 +137,7 @@ public class ReservoirFitnessFunction extends AbstractFitnessFunction {
 			vertex.inputs.clear();
 			vertex.inputs.add(new ExternalInput(input.getDataAsDouble(), tmp));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
-	
-	private void addPerturbation(Map<String, double[]> timeSeries) {
-		for (String name : timeSeries.keySet()) {
-			double max = 0.0;
-			double[] data = timeSeries.get(name);
-			for (int i = 0; i < data.length; i++) 
-				max = Math.max(max, data[i]);
-			max = (max == 0)? eps: max * eps;
-			
-			for (int i = 0; i < data.length; i++) {
-				double rnd = Math.random();
-				data[i] += (2 * rnd - 1) * max;
-			}
 		}
 	}
 
