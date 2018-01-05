@@ -1,4 +1,5 @@
 package util;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -6,12 +7,26 @@ import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
 
 public class MyOLSMultipleLinearRegression extends OLSMultipleLinearRegression {
-	private RealVector beta = null;
+	protected RealVector beta = null;
 
 	public MyOLSMultipleLinearRegression() { }
 
 	public MyOLSMultipleLinearRegression(double threshold) {
 		super(threshold);
+	}
+	
+	@Override
+	public void newSampleData(double[] y, double[][] x) throws MathIllegalArgumentException {
+		addPerturbation(x);
+		super.newSampleData(y, x);
+	}
+	
+	private void addPerturbation(double[][] x) {
+		double eps = 10.e-8;
+		for (int i = 0; i < x.length; i++) {
+			for (int j = 0; j < x[i].length; j++) 
+				x[i][j] = Math.max(0.0, x[i][j] + (2.0 * Math.random() - 1.0) * eps);
+		}
 	}
 	
 	@Override
