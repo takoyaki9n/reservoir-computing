@@ -2,6 +2,7 @@ package evo;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.HashMap;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -12,14 +13,30 @@ import model.Constants;
 import reactionnetwork.Library;
 
 public class RunReservoir {
-	
-	public static void main(String[] args) {
-		if (args.length < 1) {
-			System.err.println("Config file is required.");
-			System.exit(-1);
+	public static HashMap<String, String> getOpts(String[] args){
+		HashMap<String, String> opts = new HashMap<>();
+		for (int i = 0; i < args.length; i++) {
+			if (args[i].charAt(0) == '-') {
+				opts.put(args[i], args[i + 1]);
+				i++;
+			}
 		}
-		
-		String configFileName = args[0];
+		return opts;
+	}
+
+	public static void main(String[] args) {
+		HashMap<String, String> opts = getOpts(args);
+
+		if (opts.containsKey("-c")) {
+			run(opts.get("-c"));
+		} else if (opts.containsKey("-r")) {
+			view(opts.get("-r"));
+		} else {
+			System.err.println("-c configFile or -r resultDir");
+		}
+	}
+	
+	public static void run(String configFileName) {
 		File configFile = new File(configFileName);
 		try (JsonReader reader = Json.createReader(new FileReader(configFile))) {
 			JsonObject config = reader.readObject();
@@ -39,7 +56,19 @@ public class RunReservoir {
 	        System.out.println("Evolution completed.");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}		
+	}
+	
+	public static void view(String resultDir) {
+		try {
+			ReservoirFitnessFunction fitnessFunction = new ReservoirFitnessFunction("");
+			Evolver evolver;
+			evolver = new Evolver(Library.startingMath, fitnessFunction, new ReservoirFitnessDisplayer());
+			evolver.setGUI(true);
+			evolver.setReader(resultDir);
+			evolver.evolve();
+		}  catch (Exception e) {
+			e.printStackTrace();
 		}
-
 	}
 }

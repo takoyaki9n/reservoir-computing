@@ -30,7 +30,6 @@ public class ReservoirFitnessFunction extends AbstractFitnessFunction {
 
 	private static final long serialVersionUID = 1L;
 	private String inputNodeName = "a";
-	private double eps = 1.0e-8;
 	
 	private String configString;
 	private ArrayList<String> names;
@@ -73,7 +72,7 @@ public class ReservoirFitnessFunction extends AbstractFitnessFunction {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return minFitness();
-		}	
+		}
 	}
 	
 	private MyOLSMultipleLinearRegression train(OligoSystemComplex oligoSystem, JsonObject config) {
@@ -143,7 +142,6 @@ public class ReservoirFitnessFunction extends AbstractFitnessFunction {
 
 	@Override
 	public AbstractFitnessResult minFitness() {
-		return new ReservoirFitnessResult(true);
+		return new ReservoirFitnessResult(0.0);
 	}
-
 }

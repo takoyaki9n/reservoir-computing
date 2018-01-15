@@ -3,20 +3,20 @@ package evo;
 import java.util.Map;
 
 import erne.AbstractFitnessResult;
+import freemarker.ext.rhino.RhinoScriptableModel;
 
 public class ReservoirFitnessResult extends AbstractFitnessResult {
 
 	private static final long serialVersionUID = 1L;
 	
 	private double fitness = 0.0;
-	public boolean minFitness = false;
 
 	public Map<String, double[]> timeSeries;
 	public double[] targetOutput;
 	public double[] actualOutput;
 
-	public ReservoirFitnessResult(boolean minFitness) {
-		this.minFitness = minFitness;
+	public ReservoirFitnessResult(double fitness) {
+		this.fitness = fitness;
 	}
 	
 	public ReservoirFitnessResult(Map<String, double[]> timeSeries, double[] targetOutput, double[] actualOutput) {
@@ -38,7 +38,9 @@ public class ReservoirFitnessResult extends AbstractFitnessResult {
 			zmx = Math.max(zmx, actualOutput[i]);
 		}
 	    
-	    return  Math.abs(zmx - zmn) / Math.sqrt(rss / n);
+	    fitness = Math.abs(zmx - zmn) / Math.sqrt(rss / n);
+	    
+	    return fitness;
 	}
 	
 	@Override
