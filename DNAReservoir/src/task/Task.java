@@ -53,7 +53,9 @@ public class Task {
 			task = new TaskNARMA2(taskConfig, inputs);
 		} else if (type.equals("NARMAn")) {
 			task = new TaskNARMAn(taskConfig, inputs);
-		}
+		} else if (type.equals("Controller")) {
+			task = new TaskController(taskConfig, inputs);
+		} 
 		
 		return task;
 	}

@@ -37,13 +37,17 @@ public class TaskController extends Task {
 				if (q == 0) {
 					if (input.get(t) + alpha < m) {
 						q = 1; u = t;
+					} else {
+						m = Math.max(m, input.get(t));
 					}
 				} else {
 					if (t - u >= delta) {
 						q = 0; m = input.get(t);
 					}
 				}
+			} else {
+				q = 0;
 			}
-		}		
+		}
 	}
 }
