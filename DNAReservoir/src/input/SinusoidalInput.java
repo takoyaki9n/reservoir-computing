@@ -21,7 +21,7 @@ public class SinusoidalInput extends Input {
 	}
 	
 	private void initializeData() {
-		for (int t = 0; t < length; t++) {
+		for (int t = 0; t < end; t++) {
 			double v = 0.0;
 			if (start <= t && t < end) {
 				v = A * (1.0
