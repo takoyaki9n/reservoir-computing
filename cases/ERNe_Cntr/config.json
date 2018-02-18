@@ -1,0 +1,26 @@
+{
+    "simulation_time": 3600,
+    "inputs": [
+        {
+            "id": "sin",
+            "type": "sinusoidal",
+            "start": 200,
+            "end": 3600,
+            "A": 0.25,
+            "T": 1000,
+            "n": 3,
+            "fmin": 1.0,
+            "fmax": 5.0
+        }
+    ],
+    "task": {
+        "id": "Cntr",
+        "type": "Controller",
+        "start": 500,
+        "end": 3500,
+        "alpha": 0.025,
+        "delta": 25,
+        "input": "sin"
+    },
+    "non_negative": false
+}
