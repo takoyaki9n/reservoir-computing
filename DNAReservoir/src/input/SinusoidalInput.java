@@ -2,20 +2,23 @@ package input;
 
 import javax.json.JsonObject;
 
-/*
- * I(t) = A * (1 - cos(2πf1t/T)*cos(2πf2t/T)*cos(2πf3t/T))
- */
 public class SinusoidalInput extends Input {
-	private double A, f1, f2, f3, T;
+	private int n;
+	private double A, T, fmin, fmax;
+	private double[] f;
 
 	public SinusoidalInput(JsonObject config) {
 		super(config);
-		
+
+		n = config.getInt("n");
 		A = config.getJsonNumber("A").doubleValue();
-		f1 = config.getJsonNumber("f1").doubleValue();
-		f2 = config.getJsonNumber("f2").doubleValue();
-		f3 = config.getJsonNumber("f3").doubleValue();
 		T = config.getJsonNumber("T").doubleValue();
+		fmin = config.getJsonNumber("fmin").doubleValue();
+		fmax = config.getJsonNumber("fmax").doubleValue();
+
+		f = new double[n];
+		for (int i = 0; i < n; i++) 
+			f[i] = (fmax - fmin) * Math.random() + fmin;
 		
 		initializeData();
 	}
@@ -24,10 +27,10 @@ public class SinusoidalInput extends Input {
 		for (int t = 0; t < end; t++) {
 			double v = 0.0;
 			if (start <= t && t < end) {
-				v = A * (1.0
-						+ Math.sin(2.0 * Math.PI * f1 * t / T)
-						* Math.sin(2.0 * Math.PI * f2 * t / T)
-						* Math.sin(2.0 * Math.PI * f3 * t / T));
+				v = 1.0;
+				for (int i = 0; i < n; i++) 
+					v *= Math.cos(2.0 * Math.PI * f[i] * (t - start) / T);
+				v = 0.5 * A * (1.0 - v);
 			}
 			data[t] = v;
 		}		

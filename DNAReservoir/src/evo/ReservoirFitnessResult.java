@@ -38,7 +38,9 @@ public class ReservoirFitnessResult extends AbstractFitnessResult {
 			zmx = Math.max(zmx, actualOutput[i]);
 		}
 	    
-	    fitness = Math.abs(zmx - zmn) / Math.sqrt(rss / n);
+//	    fitness = Math.abs(zmx - zmn) / Math.sqrt(rss / n);
+	    
+	    fitness = Math.sqrt(n / rss);
 	    
 	    return fitness;
 	}

@@ -23,8 +23,8 @@ public class ReservoirFitnessDisplayer implements FitnessDisplayer {
 		if (fitnessResult.getFitness() != 0.0) {
 //			double[] xData = new double[fitnessResult.timeSeries.get("a").length];
 			Map<String, double[]> timeSeries = new HashMap<String, double[]>();
-			timeSeries.put("Fitted", fitnessResult.actualOutput);
 			timeSeries.put("Target", fitnessResult.targetOutput);
+			timeSeries.put("Fitted", fitnessResult.actualOutput);
 			double[] xData = new double[fitnessResult.actualOutput.length];
 			for (int k = 0; k < xData.length; k++) xData[k] = k;
 			return new PlotFactory().createTimeSeriesPanel(timeSeries, xData, false, "Time [min]", "");

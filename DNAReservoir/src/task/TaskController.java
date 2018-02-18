@@ -16,9 +16,9 @@ public class TaskController extends Task {
 		super(config);
 		input = inputs.get(config.getString("input"));
 		
-		start = input.start;
-		end = input.end;
-		length = input.end;
+		start = config.getInt("start");
+		end = config.getInt("end");
+		length = end;
 		
 		alpha = config.getJsonNumber("alpha").doubleValue();
 		delta = config.getInt("delta");
