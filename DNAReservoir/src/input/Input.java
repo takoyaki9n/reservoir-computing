@@ -8,24 +8,20 @@ import java.util.HashMap;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
-import util.SimulationManager;
-
 public class Input {
 	public String id;
-	public int start, end, length;
+	public int start, end;
 	
 	public File file;
 	
-	//TOTO: to double[]
 	protected double[] data;
 
 	public Input(JsonObject config) {
 		id = config.getString("id");
 		start = config.getInt("start");
-		end = config.containsKey("end")? config.getInt("end"): SimulationManager.simulationTime;
+		end = config.getInt("end");
 		
-		length = Math.max(end, SimulationManager.simulationTime);
-		data = new double[length];
+		data = new double[end];
 	}
 	
 	public double get(int i) { return data[i]; }
@@ -33,7 +29,7 @@ public class Input {
 	public double[] getData(){ return data; }
 	
 	public Double[] getDataAsDouble(){ 
-		Double[] array = new Double[length];
+		Double[] array = new Double[data.length];
 		for (int i = 0; i < array.length; i++) array[i] = new Double(data[i]);
 		return array; 
 	}
@@ -42,7 +38,7 @@ public class Input {
 		file = new File(fileName);
 		try {
 			FileWriter writer = new FileWriter(file);
-			for (int t = 0; t< length; t++) {
+			for (int t = 0; t< data.length; t++) {
 				writer.write(get(t) + "\n");
 			}
 			writer.close();
@@ -51,7 +47,7 @@ public class Input {
 		}
 	}
 	
-	static private Input generateInput(JsonObject inputConfig) {
+	static public Input generateInput(JsonObject inputConfig) {
 		String type = inputConfig.getString("type");
 		
 		Input input = null;
@@ -60,8 +56,6 @@ public class Input {
 		} else if (type.equals("sinusoidal")) {			
 			input = new SinusoidalInput(inputConfig);
 		}
-		
-		input.export(SimulationManager.caseDir + "/input_" + input.id + ".dat");
 
 		return input;
 	}

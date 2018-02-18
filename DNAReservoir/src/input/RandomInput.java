@@ -19,7 +19,7 @@ public class RandomInput extends Input {
 	
 	private void initializeData() {
 		double v = 0.0;
-		for (int t = 0; t < length; t++) {
+		for (int t = 0; t < end; t++) {
 			if (t < end) {
 				if (t >= start && (t - start) % interval == 0) {
 					double rnd = new Random().nextDouble();

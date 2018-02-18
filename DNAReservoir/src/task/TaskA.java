@@ -16,7 +16,7 @@ public class TaskA extends Task {
 		
 		start = input.start + 2;
 		end = input.end;
-		length = input.length;
+		length = input.end;
 				
 		initializeData();
 	}

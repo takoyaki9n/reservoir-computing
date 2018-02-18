@@ -26,7 +26,7 @@ public class TaskNARMAn extends Task {
 
 		start = input.start + n;
 		end = input.end;
-		length = input.length;
+		length = input.end;
 		
 		initializeData();
 	}

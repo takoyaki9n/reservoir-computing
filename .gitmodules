@@ -5,3 +5,4 @@
 [submodule "bioneat"]
 	path = bioneat
 	url = git@bitbucket.org:AubertKato/bioneat.git
+	ignore = dirty

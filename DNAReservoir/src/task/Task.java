@@ -8,7 +8,6 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 
 import input.Input;
-import util.SimulationManager;
 
 public class Task {
 	public String id;
@@ -42,7 +41,7 @@ public class Task {
 		}
 	}
 
-	static private Task generateTask(JsonObject taskConfig, HashMap<String, Input> inputs) {
+	static public Task generateTask(JsonObject taskConfig, HashMap<String, Input> inputs) {
 		String type = taskConfig.getString("type");
 		
 		Task task = null;
@@ -54,9 +53,9 @@ public class Task {
 			task = new TaskNARMA2(taskConfig, inputs);
 		} else if (type.equals("NARMAn")) {
 			task = new TaskNARMAn(taskConfig, inputs);
-		}
-		
-		task.export(SimulationManager.caseDir + "/task_" + task.id + ".dat");
+		} else if (type.equals("Controller")) {
+			task = new TaskController(taskConfig, inputs);
+		} 
 		
 		return task;
 	}
