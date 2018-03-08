@@ -12,7 +12,8 @@ Generate eclipse projects.
 $ make eclipse
 ```
 Open all repositories `DNA-reservoir`, `DACCAD` and `bioneat` in eclipse.
-The main class is `evo.RunReservoir` and some examples are contained in `cases` directory, you can run them by giving following command line arguments from `Run > Run Configuration..`.
+The main class is `evo.RunReservoir` and some examples are contained in `cases` directory.
+You can run an example by giving following command line arguments from `Run > Run Configuration..`.
 ```
 -c ../cases/ERNe_TaskB/config.json
 ```
